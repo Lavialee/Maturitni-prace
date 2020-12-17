@@ -1,271 +1,103 @@
-<span class="hljs-comment"></span>
-<span class="hljs-meta"></span>
-<span class="hljs-tag"><<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>></span>
-<span class="hljs-tag"><<span class="hljs-name">head</span>></span>
-  <span class="hljs-tag"><<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"utf-8"</span>></span>
-  <span class="hljs-tag"><<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1, shrink-to-fit=no"</span>></span>
-  <span class="hljs-tag"><<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"</span>></span>
-  <span class="hljs-tag"><<span class="hljs-name">title</span>></span>TIC-TAC-TOE<span class="hljs-tag"></<span class="hljs-name">title</span>></span>
-<span class="hljs-tag"></<span class="hljs-name">head</span>></span>
-<span class="hljs-tag"><<span class="hljs-name">body</span>></span>
-  <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"app"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container-fluid"</span>></span>
-    <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container-fluid clearfix mb-3 shadow"</span>></span>
-      <span class="hljs-tag"><<span class="hljs-name">img</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"float-left my-3"</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://thestore.gameops.com/v/vspfiles/photos/Tic-Tac-Go-14.gif"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"62px"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"62px"</span>
-      /></span>
-      <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"float-right w-25 py-3"</span>></span>
-        <span class="hljs-tag"><<span class="hljs-name">img</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"my-3 mx-3 rounded-circle border"</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"http://dfsanonymous.club/wp-content/uploads/2017/11/DFSAnonymous-NewLogo.png"</span>
-          <span class="hljs-attr">height</span>=<span class="hljs-string">"62px"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"62px"</span> /></span>
-        <span class="hljs-tag"><<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"d-inline"</span>></span>  {{ username }}  <span class="hljs-tag"></<span class="hljs-name">p</span>></span>
-      <span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-    <span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-    <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row mx-5"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 50vh"</span>></span>
-      <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-8 h-50 align-self-center"</span>></span>
-        <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row border rounded invisible h-50 w-75 m-auto"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"font-size: 3.6rem"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"gameboard"</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">"playerAction"</span>></span>
-          <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"h-100 pr-2 col border border-dark"</span> <span class="hljs-attr">data-id</span>=<span class="hljs-string">"1"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"1"</span>></span><span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-          <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col pr-2 border border-dark"</span> <span class="hljs-attr">data-id</span>=<span class="hljs-string">"2"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"2"</span>></span><span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-          <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col pr-2 border border-dark"</span> <span class="hljs-attr">data-id</span>=<span class="hljs-string">"3"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"3"</span>></span><span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-          <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"w-100"</span>></span><span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-          <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"h-100 pr-2 col border border-dark"</span> <span class="hljs-attr">data-id</span>=<span class="hljs-string">"4"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"4"</span>></span><span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-          <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col pr-2 border border-dark"</span> <span class="hljs-attr">data-id</span>=<span class="hljs-string">"5"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"5"</span>></span><span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-          <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col pr-2 border border-dark"</span> <span class="hljs-attr">data-id</span>=<span class="hljs-string">"6"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"6"</span>></span><span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-          <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"w-100"</span>></span><span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-          <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"h-100 pr-2 col border border-dark"</span> <span class="hljs-attr">data-id</span>=<span class="hljs-string">"7"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"7"</span>></span><span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-          <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col pr-2 border border-dark"</span> <span class="hljs-attr">data-id</span>=<span class="hljs-string">"8"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"8"</span>></span><span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-          <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col pr-2 border border-dark"</span> <span class="hljs-attr">data-id</span>=<span class="hljs-string">"9"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"9"</span>></span><span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-        <span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-      <span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-      <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-4 pl-3"</span>></span>
-        <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row h-100"</span>></span>
-          <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col border h-75 text-center"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"background: rgb(114, 230, 147);"</span>></span>
-            <span class="hljs-tag"><<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"my-3"</span>></span>  {{ players }}  online player(s) <span class="hljs-tag"></<span class="hljs-name">p</span>></span>
-            <span class="hljs-tag"><<span class="hljs-name">hr</span>/></span>
-            <span class="hljs-tag"><<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"m-auto py-3 text-dark"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"cursor: pointer;"</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"member in connectedPlayers"</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">"choosePlayer"</span>></span>
-               {{ member }} 
-            <span class="hljs-tag"></<span class="hljs-name">li</span>></span>
-          <span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-          <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"w-100"</span>></span><span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-          <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col text-center py-3 border h-25"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"background: #b6c0ca; font-size: 1em; font-weight: bold"</span>></span>
-             {{ status }} 
-          <span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-        <span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-      <span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-    <span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-  <span class="hljs-tag"></<span class="hljs-name">div</span>></span>
-  <span class="hljs-tag"><<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/vue/dist/vue.js"</span>></span><span class="undefined"></span><span class="hljs-tag"></<span class="hljs-name">script</span>></span>
-  <span class="hljs-tag"><<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://js.pusher.com/4.2/pusher.min.js"</span>></span><span class="undefined"></span><span class="hljs-tag"></<span class="hljs-name">script</span>></span>
-  <span class="hljs-tag"><<span class="hljs-name">script</span>></span><span class="undefined">
-    <span class="hljs-keyword">var</span> app = <span class="hljs-keyword">new</span> Vue({
-      <span class="hljs-attr">el</span>: <span class="hljs-string">'#app'</span>,
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Totem</title>
+</head>
+<body>
+  <div id="app">
+    <p> tvoje přezdívka: {% raw %} {{ username }} {% endraw %} </p>
+    <div style="height: 50vh">
+        <p class="my-3"> {% raw %} {{ players }} {% endraw %} online player(s) </p>
+            <li class="m-auto py-3 text-dark" style="cursor: pointer;" v-for="member in connectedPlayers" @click="choosePlayer">
+              {% raw %} {{ member }} {% endraw %}
+            </li>
+    </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://js.pusher.com/4.2/pusher.min.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
 
-      <span class="hljs-attr">data</span>: {
-      <span class="hljs-attr">username</span>: <span class="hljs-string">''</span>,
-      <span class="hljs-attr">players</span>: <span class="hljs-number">0</span>,
-      <span class="hljs-attr">connectedPlayers</span>: [],
-      <span class="hljs-attr">status</span>: <span class="hljs-string">''</span>,
-      <span class="hljs-attr">pusher</span>: <span class="hljs-keyword">new</span> Pusher(<span class="hljs-string">'f98348521f3f514f3091'</span>, {
-        <span class="hljs-attr">authEndpoint</span>: <span class="hljs-string">'/pusher/auth'</span>,
-        <span class="hljs-attr">cluster</span>: <span class="hljs-string">''</span>,
-        <span class="hljs-attr">encrypted</span>: <span class="hljs-literal">true</span>
-      }),
-      <span class="hljs-attr">otherPlayerName</span>: <span class="hljs-string">''</span>,
-      <span class="hljs-attr">mychannel</span>: {},
-      <span class="hljs-attr">otherPlayerChannel</span>: {},
-      <span class="hljs-attr">firstPlayer</span>: <span class="hljs-number">0</span>,
-      <span class="hljs-attr">turn</span>: <span class="hljs-number">0</span>,
-      <span class="hljs-attr">boxes</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]
-    },
+      created () {
+        let url = new URL(window.location.href);
+        let name = url.searchParams.get("username");
 
-   created () {
-      <span class="hljs-keyword">let</span> url = <span class="hljs-keyword">new</span> URL(<span class="hljs-built_in">window</span>.location.href);
-      <span class="hljs-keyword">let</span> name = url.searchParams.get(<span class="hljs-string">"username"</span>);
+        if (name) {
+          this.username = name
+          this.subscribe();
+          this.listeners();
+        } else {
+          this.username = this.generateRandomName();
+          location.assign("/play?username=" + this.username);
+        }
+      },
 
-      <span class="hljs-keyword">if</span> (name) {
-        <span class="hljs-keyword">this</span>.username = name
-        <span class="hljs-keyword">this</span>.subscribe();
-        <span class="hljs-keyword">this</span>.listeners();
-      } 
-      <span class="hljs-comment">// Generates a random string we use as a name for a guest user</span>
-generateRandomName: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">let</span> text = <span class="hljs-string">''</span>;
-  <span class="hljs-keyword">let</span> possible = <span class="hljs-string">'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'</span>;
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i < <span class="hljs-number">6</span>; i++) {
-    text += possible.charAt(<span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random() * possible.length));
-  }
-  <span class="hljs-keyword">return</span> text;
-},
+      data: {
+        username: '',
+        players: 0,
+        connectedPlayers: [],
+        pusher: pusher = new Pusher('f98348521f3f514f3091', {
+          authEndpoint: '/pusher/auth',
+          cluster: 'eu',
+          encrypted: true
+        }),
+        otherPlayerName: '',
+        mychannel: {},
+        otherPlayerChannel: {},
+        firstPlayer: 0,
+        turn: 0,
+        boxes: [0, 0, 0, 0, 0, 0, 0, 0, 0]
+      },
 
-<span class="hljs-comment">// Lets you choose a player to play as.</span>
-choosePlayer: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) </span>{
-  <span class="hljs-keyword">this</span>.otherPlayerName = e.target.innerText
-  <span class="hljs-keyword">this</span>.otherPlayerChannel = <span class="hljs-keyword">this</span>.pusher.subscribe(<span class="hljs-string">'private-'</span> + <span class="hljs-keyword">this</span>.otherPlayerName)
-  <span class="hljs-keyword">this</span>.otherPlayerChannel.bind(<span class="hljs-string">'pusher:subscription_succeeded'</span>, () => {
-    <span class="hljs-keyword">this</span>.otherPlayerChannel.trigger(<span class="hljs-string">'client-'</span> + <span class="hljs-keyword">this</span>.otherPlayerName, <span class="hljs-keyword">this</span>.username)
-  });
-},
+      methods: {
+        generateRandomName: function () {
+          let text = '';
+          let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+          for (var i = 0; i < 6; i++) {
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+          }
 
-<span class="hljs-comment">// Begins the game</span>
-startGame: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">name</span>) </span>{
-  <span class="hljs-keyword">this</span>.status = <span class="hljs-string">"Game started with "</span> + name
-  <span class="hljs-keyword">this</span>.$refs.gameboard.classList.remove(<span class="hljs-string">'invisible'</span>);
-},
+          return text;
+        },
 
-<span class="hljs-comment">// User declined to play</span>
-gameDeclined: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">this</span>.status = <span class="hljs-string">"Game declined"</span>
-},
+        subscribe: function () {
+          // Subscribe to the presence and private channels
+          let channel = this.pusher.subscribe('presence-channel');
+          this.myChannel = this.pusher.subscribe('private-' + this.username)
 
-<span class="hljs-comment">// Game has ended with current user winning</span>
-gameWon: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">this</span>.status = <span class="hljs-string">"You WON!"</span>
-  <span class="hljs-keyword">this</span>.$refs.gameboard.classList.add(<span class="hljs-string">'invisible'</span>);
-  <span class="hljs-keyword">this</span>.restartGame()
-},
+          // Updatuje počet online hráčů po připojení
+          channel.bind('pusher:subscription_succeeded', (player) => {
+            this.players = player.count - 1
+            player.each((player) => {
+              if (player.id != this.username)
+                this.connectedPlayers.push(player.id)
+            });
+          });
 
-<span class="hljs-comment">// Game has ended with current user losing</span>
-gameLost: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">this</span>.turn = <span class="hljs-number">1</span>;
-  <span class="hljs-keyword">this</span>.boxes = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]
-  <span class="hljs-keyword">this</span>.status = <span class="hljs-string">"You LOST!"</span>
-  <span class="hljs-keyword">this</span>.$refs.gameboard.classList.add(<span class="hljs-string">'invisible'</span>);
-  <span class="hljs-keyword">this</span>.restartGame()
-},
+          // Display a notification when a new player comes online
+          channel.bind('pusher:member_added', (player) => {
+            this.players++;
+            this.connectedPlayers.push(player.id)
+          });
 
-<span class="hljs-comment">// Restarts a game</span>
-restartGame: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">for</span> (i = <span class="hljs-number">1</span>; i < <span class="hljs-number">10</span>; i++) {
-    <span class="hljs-keyword">this</span>.$refs[i].innerText = <span class="hljs-string">""</span>
-  }
-  <span class="hljs-keyword">this</span>.$refs.gameboard.classList.remove(<span class="hljs-string">'invisible'</span>);
-},
+          // Decrement the connectedPlayers array when a player disconnects
+          channel.bind('pusher:member_removed', (player) => {
+            this.players--;
+            var index = this.connectedPlayers.indexOf(player.id);
+            if (index > -1) {
+              this.connectedPlayers.splice(index, 1)
+            }
+          });
+        },
 
-<span class="hljs-comment">// Checks tiles to see if the tiles passed are a match</span>
-compare: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">1</span>; i < <span class="hljs-built_in">arguments</span>.length; i++) {
-    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>[i] === <span class="hljs-number">0</span> || <span class="hljs-built_in">arguments</span>[i] !== <span class="hljs-built_in">arguments</span>[i - <span class="hljs-number">1</span>]) {
-      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
-    }
-  }
 
-  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
-},
-
-<span class="hljs-comment">// Checks the tiles and returns true if theres a winning play</span>
-theresAMatch: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.compare(<span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">0</span>], <span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">1</span>], <span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">2</span>]) ||
-    <span class="hljs-keyword">this</span>.compare(<span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">3</span>], <span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">4</span>], <span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">5</span>]) ||
-    <span class="hljs-keyword">this</span>.compare(<span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">6</span>], <span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">7</span>], <span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">8</span>]) ||
-    <span class="hljs-keyword">this</span>.compare(<span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">0</span>], <span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">3</span>], <span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">6</span>]) ||
-    <span class="hljs-keyword">this</span>.compare(<span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">1</span>], <span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">4</span>], <span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">7</span>]) ||
-    <span class="hljs-keyword">this</span>.compare(<span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">2</span>], <span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">5</span>], <span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">8</span>]) ||
-    <span class="hljs-keyword">this</span>.compare(<span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">2</span>], <span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">4</span>], <span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">6</span>]) ||
-    <span class="hljs-keyword">this</span>.compare(<span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">0</span>], <span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">4</span>], <span class="hljs-keyword">this</span>.boxes[<span class="hljs-number">8</span>])
-},
-
-<span class="hljs-comment">// Checks to see if the play was a winning play</span>
-playerAction: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) </span>{
-  <span class="hljs-keyword">let</span> index = e.target.dataset.id - <span class="hljs-number">1</span>
-  <span class="hljs-keyword">let</span> tile = <span class="hljs-keyword">this</span>.firstPlayer ? <span class="hljs-string">'X'</span> : <span class="hljs-string">'O'</span>
-
-  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.turn && <span class="hljs-keyword">this</span>.boxes[index] == <span class="hljs-number">0</span>) {
-    <span class="hljs-keyword">this</span>.turn = <span class="hljs-number">0</span>
-    <span class="hljs-keyword">this</span>.boxes[index] = tile
-    e.target.innerText = tile
-
-    <span class="hljs-keyword">this</span>.otherPlayerChannel.trigger(<span class="hljs-string">'client-your-turn'</span>, <span class="hljs-string">""</span>)
-    <span class="hljs-keyword">this</span>.otherPlayerChannel.trigger(<span class="hljs-string">'client-box-update'</span>, <span class="hljs-keyword">this</span>.boxes)
-    <span class="hljs-keyword">this</span>.otherPlayerChannel.trigger(<span class="hljs-string">'client-new-move'</span>, e.target.dataset.id)
-
-    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.theresAMatch()) {
-      <span class="hljs-keyword">this</span>.gameWon()
-      <span class="hljs-keyword">this</span>.boxes = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]
-      <span class="hljs-keyword">this</span>.otherPlayerChannel.trigger(<span class="hljs-string">'client-you-lost'</span>, <span class="hljs-string">''</span>)
-    }
-  }
-},
-      <span class="hljs-keyword">else</span> {
-        <span class="hljs-keyword">this</span>.username = <span class="hljs-keyword">this</span>.generateRandomName();
-        location.assign(<span class="hljs-string">"/play?username="</span> + <span class="hljs-keyword">this</span>.username);
       }
-    },
-
-    <span class="hljs-attr">methods</span>: {
-      <span class="hljs-comment">// We will add methods here</span>
-        subscribe: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">let</span> channel = <span class="hljs-keyword">this</span>.pusher.subscribe(<span class="hljs-string">'presence-channel'</span>);
-    <span class="hljs-keyword">this</span>.myChannel = <span class="hljs-keyword">this</span>.pusher.subscribe(<span class="hljs-string">'private-'</span> + <span class="hljs-keyword">this</span>.username)
-
-    channel.bind(<span class="hljs-string">'pusher:subscription_succeeded'</span>, (player) => {
-      <span class="hljs-keyword">this</span>.players = player.count - <span class="hljs-number">1</span>
-      player.each(<span class="hljs-function">(<span class="hljs-params">player</span>) =></span> {
-        <span class="hljs-keyword">if</span> (player.id != <span class="hljs-keyword">this</span>.username)
-          <span class="hljs-keyword">this</span>.connectedPlayers.push(player.id)
-      });
-    });
-
-    channel.bind(<span class="hljs-string">'pusher:member_added'</span>, (player) => {
-      <span class="hljs-keyword">this</span>.players++;
-      <span class="hljs-keyword">this</span>.connectedPlayers.push(player.id)
-    });
-
-    channel.bind(<span class="hljs-string">'pusher:member_removed'</span>, (player) => {
-      <span class="hljs-keyword">this</span>.players--;
-      <span class="hljs-keyword">var</span> index = <span class="hljs-keyword">this</span>.connectedPlayers.indexOf(player.id);
-      <span class="hljs-keyword">if</span> (index > <span class="hljs-number">-1</span>) {
-        <span class="hljs-keyword">this</span>.connectedPlayers.splice(index, <span class="hljs-number">1</span>)
-      }
-    });
-  },
-
-  <span class="hljs-attr">listeners</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">this</span>.pusher.bind(<span class="hljs-string">'client-'</span> + <span class="hljs-keyword">this</span>.username, (message) => {
-      <span class="hljs-keyword">if</span> (confirm(<span class="hljs-string">'Do you want to start a game of Tic Tac Toe with '</span> + message)) {
-        <span class="hljs-keyword">this</span>.otherPlayerName = message
-        <span class="hljs-keyword">this</span>.otherPlayerChannel = <span class="hljs-keyword">this</span>.pusher.subscribe(<span class="hljs-string">'private-'</span> + <span class="hljs-keyword">this</span>.otherPlayerName)
-        <span class="hljs-keyword">this</span>.otherPlayerChannel.bind(<span class="hljs-string">'pusher:subscription_succeeded'</span>, () => {
-          <span class="hljs-keyword">this</span>.otherPlayerChannel.trigger(<span class="hljs-string">'client-game-started'</span>, <span class="hljs-keyword">this</span>.username)
-        })
-        <span class="hljs-keyword">this</span>.startGame(message)
-      } <span class="hljs-keyword">else</span> {
-        <span class="hljs-keyword">this</span>.otherPlayerChannel = <span class="hljs-keyword">this</span>.pusher.subscribe(<span class="hljs-string">'private-'</span> + message)
-        <span class="hljs-keyword">this</span>.otherPlayerChannel.bind(<span class="hljs-string">'pusher:subscription_succeeded'</span>, () => {
-          <span class="hljs-keyword">this</span>.otherPlayerChannel.trigger(<span class="hljs-string">'client-game-declined'</span>, <span class="hljs-string">""</span>)
-        })
-        <span class="hljs-keyword">this</span>.gameDeclined()
-      }
-    }),
-
-    <span class="hljs-keyword">this</span>.myChannel.bind(<span class="hljs-string">'client-game-started'</span>, (message) => {
-      <span class="hljs-keyword">this</span>.status = <span class="hljs-string">"Game started with "</span> + message
-      <span class="hljs-keyword">this</span>.$refs.gameboard.classList.remove(<span class="hljs-string">'invisible'</span>);
-      <span class="hljs-keyword">this</span>.firstPlayer = <span class="hljs-number">1</span>;
-      <span class="hljs-keyword">this</span>.turn = <span class="hljs-number">1</span>;
     })
-
-    <span class="hljs-keyword">this</span>.myChannel.bind(<span class="hljs-string">'client-game-declined'</span>, () => {
-      <span class="hljs-keyword">this</span>.status = <span class="hljs-string">"Game declined"</span>
-    })
-
-    <span class="hljs-keyword">this</span>.myChannel.bind(<span class="hljs-string">'client-new-move'</span>, (position) => {
-      <span class="hljs-keyword">this</span>.$refs[position].innerText = <span class="hljs-keyword">this</span>.firstPlayer ? <span class="hljs-string">'O'</span> : <span class="hljs-string">'X'</span>
-    })
-
-    <span class="hljs-keyword">this</span>.myChannel.bind(<span class="hljs-string">'client-your-turn'</span>, () => {
-      <span class="hljs-keyword">this</span>.turn = <span class="hljs-number">1</span>;
-    })
-
-    <span class="hljs-keyword">this</span>.myChannel.bind(<span class="hljs-string">'client-box-update'</span>, (update) => {
-      <span class="hljs-keyword">this</span>.boxes = update;
-    })
-
-    <span class="hljs-keyword">this</span>.myChannel.bind(<span class="hljs-string">'client-you-lost'</span>, () => {
-      <span class="hljs-keyword">this</span>.gameLost();
-    })
-  },
-
-  <span class="hljs-comment">// [...]</span>
-    }
-  });
-
-  </span><span class="hljs-tag"></<span class="hljs-name">script</span>></span>
-<span class="hljs-tag"></<span class="hljs-name">body</span>></span>
-<span class="hljs-tag"></<span class="hljs-name">html</span>></span>
+  </script>
+</body>
+</html>
