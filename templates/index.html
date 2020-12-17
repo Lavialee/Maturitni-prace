@@ -1,0 +1,118 @@
+span class="hljs-comment"></span>
+<span class="hljs-meta"></span>
+<span class="hljs-tag"><<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>></span>
+    <span class="hljs-tag"><<span class="hljs-name">head</span>></span>
+        <span class="hljs-tag"><<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"utf-8"</span>></span>
+        <span class="hljs-tag"><<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1, shrink-to-fit=no"</span>></span>
+        <span class="hljs-tag"><<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"description"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">""</span>></span>
+        <span class="hljs-tag"><<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"author"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"Neo Ighodaro"</span>></span>
+        <span class="hljs-tag"><<span class="hljs-name">title</span>></span>TIC-TAC-TOE<span class="hljs-tag"></<span class="hljs-name">title</span>></span>
+        <span class="hljs-tag"><<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"</span>></span>
+        <span class="hljs-tag"><<span class="hljs-name">style</span>></span><span class="css">
+              <span class="hljs-selector-pseudo">:root</span> {
+                <span class="hljs-attribute">--input-padding-x</span>: .<span class="hljs-number">75rem</span>;
+                <span class="hljs-attribute">--input-padding-y</span>: .<span class="hljs-number">75rem</span>;
+              }
+              <span class="hljs-selector-tag">html</span>,
+              <span class="hljs-selector-tag">body</span>, <span class="hljs-selector-tag">body</span> > <span class="hljs-selector-tag">div</span> {
+                <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;
+              }
+              <span class="hljs-selector-tag">body</span> > <span class="hljs-selector-tag">div</span> {
+                <span class="hljs-attribute">display</span>: -ms-flexbox;
+                <span class="hljs-attribute">display</span>: flex;
+                <span class="hljs-attribute">-ms-flex-align</span>: center;
+                <span class="hljs-attribute">align-items</span>: center;
+                <span class="hljs-attribute">padding-top</span>: <span class="hljs-number">40px</span>;
+                <span class="hljs-attribute">padding-bottom</span>: <span class="hljs-number">40px</span>;
+                <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#f5f5f5</span>;
+              }
+              <span class="hljs-selector-class">.form-signin</span> {
+                <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;
+                <span class="hljs-attribute">max-width</span>: <span class="hljs-number">420px</span>;
+                <span class="hljs-attribute">padding</span>: <span class="hljs-number">15px</span>;
+                <span class="hljs-attribute">margin</span>: auto;
+              }
+              <span class="hljs-selector-class">.form-label-group</span> {
+                <span class="hljs-attribute">position</span>: relative;
+                <span class="hljs-attribute">margin-bottom</span>: <span class="hljs-number">1rem</span>;
+              }
+              <span class="hljs-selector-class">.form-label-group</span> > <span class="hljs-selector-tag">input</span>,
+              <span class="hljs-selector-class">.form-label-group</span> > <span class="hljs-selector-tag">label</span> {
+                <span class="hljs-attribute">padding</span>: <span class="hljs-built_in">var</span>(--input-padding-y) <span class="hljs-built_in">var</span>(--input-padding-x);
+              }
+              <span class="hljs-selector-class">.form-label-group</span> > <span class="hljs-selector-tag">label</span> {
+                <span class="hljs-attribute">position</span>: absolute;
+                <span class="hljs-attribute">top</span>: <span class="hljs-number">0</span>;
+                <span class="hljs-attribute">left</span>: <span class="hljs-number">0</span>;
+                <span class="hljs-attribute">display</span>: block;
+                <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;
+                <span class="hljs-attribute">margin-bottom</span>: <span class="hljs-number">0</span>; <span class="hljs-comment">/* Override default `<label>` margin */</span>
+                <span class="hljs-attribute">line-height</span>: <span class="hljs-number">1.5</span>;
+                <span class="hljs-attribute">color</span>: <span class="hljs-number">#495057</span>;
+                <span class="hljs-attribute">cursor</span>: text; <span class="hljs-comment">/* Match the input under the label */</span>
+                <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid transparent;
+                <span class="hljs-attribute">border-radius</span>: .<span class="hljs-number">25rem</span>;
+                <span class="hljs-attribute">transition</span>: all .<span class="hljs-number">1s</span> ease-in-out;
+              }
+              <span class="hljs-selector-class">.form-label-group</span> <span class="hljs-selector-tag">input</span><span class="hljs-selector-pseudo">::-webkit-input-placeholder</span> {
+                <span class="hljs-attribute">color</span>: transparent;
+              }
+              <span class="hljs-selector-class">.form-label-group</span> <span class="hljs-selector-tag">input</span><span class="hljs-selector-pseudo">:-ms-input-placeholder</span> {
+                <span class="hljs-attribute">color</span>: transparent;
+              }
+              <span class="hljs-selector-class">.form-label-group</span> <span class="hljs-selector-tag">input</span><span class="hljs-selector-pseudo">::-ms-input-placeholder</span> {
+                <span class="hljs-attribute">color</span>: transparent;
+              }
+              <span class="hljs-selector-class">.form-label-group</span> <span class="hljs-selector-tag">input</span><span class="hljs-selector-pseudo">::-moz-placeholder</span> {
+                <span class="hljs-attribute">color</span>: transparent;
+              }
+              <span class="hljs-selector-class">.form-label-group</span> <span class="hljs-selector-tag">input</span><span class="hljs-selector-pseudo">::placeholder</span> {
+                <span class="hljs-attribute">color</span>: transparent;
+              }
+              <span class="hljs-selector-class">.form-label-group</span> <span class="hljs-selector-tag">input</span><span class="hljs-selector-pseudo">:not(</span><span class="hljs-selector-pseudo">:placeholder-shown)</span> {
+                <span class="hljs-attribute">padding-top</span>: <span class="hljs-built_in">calc</span>(var(--input-padding-y) + <span class="hljs-built_in">var</span>(--input-padding-y) * (<span class="hljs-number">2</span> / <span class="hljs-number">3</span>));
+                <span class="hljs-attribute">padding-bottom</span>: <span class="hljs-built_in">calc</span>(var(--input-padding-y) / <span class="hljs-number">3</span>);
+              }
+              <span class="hljs-selector-class">.form-label-group</span> <span class="hljs-selector-tag">input</span><span class="hljs-selector-pseudo">:not(</span><span class="hljs-selector-pseudo">:placeholder-shown)</span> ~ <span class="hljs-selector-tag">label</span> {
+                <span class="hljs-attribute">padding-top</span>: <span class="hljs-built_in">calc</span>(var(--input-padding-y) / <span class="hljs-number">3</span>);
+                <span class="hljs-attribute">padding-bottom</span>: <span class="hljs-built_in">calc</span>(var(--input-padding-y) / <span class="hljs-number">3</span>);
+                <span class="hljs-attribute">font-size</span>: <span class="hljs-number">12px</span>;
+                <span class="hljs-attribute">color</span>: <span class="hljs-number">#777</span>;
+              }
+        </span><span class="hljs-tag"></<span class="hljs-name">style</span>></span>
+      <span class="hljs-tag"></<span class="hljs-name">head</span>></span>
+      <span class="hljs-tag"><<span class="hljs-name">body</span>></span>
+        <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"app"</span>></span>
+          <span class="hljs-tag"><<span class="hljs-name">form</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-signin"</span>></span>
+            <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"text-center mb-4"</span>></span>
+              <span class="hljs-tag"><<span class="hljs-name">img</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb-4"</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://thestore.gameops.com/v/vspfiles/photos/Tic-Tac-Go-14.gif"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">""</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"72"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"72"</span>></span>
+              <span class="hljs-tag"><<span class="hljs-name">h1</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"h3 mb-3 font-weight-normal"</span>></span>TIC-TAC-TOE<span class="hljs-tag"></<span class="hljs-name">h1</span>></span>
+              <span class="hljs-tag"><<span class="hljs-name">p</span>></span>PUT IN YOUR DETAILS TO PLAY<span class="hljs-tag"></<span class="hljs-name">p</span>></span>
+            <span class="hljs-tag"></<span class="hljs-name">div</span>></span>
+            <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-label-group"</span>></span>
+                <span class="hljs-tag"><<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"name"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"inputUsername"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"username"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-control"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Username"</span> <span class="hljs-attr">required</span>=<span class="hljs-string">""</span> <span class="hljs-attr">autofocus</span>=<span class="hljs-string">""</span>></span>
+                  <span class="hljs-tag"><<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"inputUsername"</span>></span>Username<span class="hljs-tag"></<span class="hljs-name">label</span>></span>
+            <span class="hljs-tag"></<span class="hljs-name">div</span>></span>
+            <span class="hljs-tag"><<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-label-group"</span>></span>
+              <span class="hljs-tag"><<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"email"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"inputEmail"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"email"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-control"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Email address"</span> <span class="hljs-attr">autofocus</span>=<span class="hljs-string">""</span> <span class="hljs-attr">required</span>></span>
+                <span class="hljs-tag"><<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"inputEmail"</span>></span>Email address<span class="hljs-tag"></<span class="hljs-name">label</span>></span>
+            <span class="hljs-tag"></<span class="hljs-name">div</span>></span>
+            <span class="hljs-tag"><<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-lg btn-primary btn-block"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> @<span class="hljs-attr">click.prevent</span>=<span class="hljs-string">"login"</span>></span>Connect<span class="hljs-tag"></<span class="hljs-name">button</span>></span>
+            <span class="hljs-tag"><<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mt-5 mb-3 text-muted text-center"</span>></span>© 2017-2018<span class="hljs-tag"></<span class="hljs-name">p</span>></span>
+          <span class="hljs-tag"></<span class="hljs-name">form</span>></span>
+        <span class="hljs-tag"></<span class="hljs-name">div</span>></span>
+        <span class="hljs-tag"><<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/vue/dist/vue.js"</span>></span><span class="undefined"></span><span class="hljs-tag"></<span class="hljs-name">script</span>></span>
+        <span class="hljs-tag"><<span class="hljs-name">script</span>></span><span class="javascript">
+        <span class="hljs-keyword">var</span> app = <span class="hljs-keyword">new</span> Vue({
+          <span class="hljs-attr">el</span>: <span class="hljs-string">'#app'</span>,
+          <span class="hljs-attr">methods</span>: {
+            <span class="hljs-attr">login</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+              <span class="hljs-keyword">let</span> username = <span class="hljs-keyword">this</span>.$refs.username.value
+              <span class="hljs-keyword">let</span> email = <span class="hljs-keyword">this</span>.$refs.email.value
+              <span class="hljs-built_in">window</span>.location.replace(<span class="hljs-string">`/play?username=<span class="hljs-subst">${username}</span>&email=<span class="hljs-subst">${email}</span>`</span>);
+            }
+          }
+        })
+        </span><span class="hljs-tag"></<span class="hljs-name">script</span>></span>
+    <span class="hljs-tag"></<span class="hljs-name">body</span>></span>
+<span class="hljs-tag"></<span class="hljs-name">html</span>></span>
