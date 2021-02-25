@@ -10,3 +10,7 @@ To-Do long term
 - [ ] zvolit hráče
 - [ ] logika hry
 - [ ] grafika
+
+
+DEPENDENCIES
+pusher, flask 
