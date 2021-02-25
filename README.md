@@ -13,4 +13,4 @@ To-Do long term
 
 
 DEPENDENCIES
-pusher, flask 
+pusher, flask, NumPy
