@@ -1,7 +1,6 @@
 import random
 import numpy as np
 
-
 ###CARD CLASSES###
 
 ###AIR###
@@ -224,14 +223,16 @@ for x in range(16):
 for x in range(5):
     draft_row.append (main_deck.pop(0))
 
-current_player = random.randint(0, 1)
-
 print('Current player:', current_player, '\n')
 print('P1 deck:', P1.deck, '\n')
 print('P2 deck:', P2.deck, '\n')
 print('Draft row:', draft_row, '\n')
 print('Main deck:', main_deck, '\n')
 ###DECK DEALING END###
+
+###GAME START###
+current_player = random.randint(0, 1)
+
 
 """
 while is_game_end() is False:
