@@ -38,7 +38,7 @@ class Cards:
         image = self.image_load(self.card_type)
         window.blit(image, (self.x,self.y))
 
-    def select_card(mx, my, rectangles):
+    def select_totem_placement(mx, my, rectangles):
         if rectangles.collidepoint(mx, my):
             col = (mx - 40) // COLS
             row = (my - 770 + ROWS*175) // ROWS
@@ -65,15 +65,16 @@ class Board:
                 y = row*(CARD_SIZE+PADDING) + 240
                 rectangles = pygame.draw.rect(window, GREY, (x, y, CARD_SIZE, CARD_SIZE))
         
-
     def draw_draft_base(self, window, draft):
         for col in range(len(draft)+1):
             x = col*(DRAFT_CARD_SIZE+PADDING) + MARGINS
             y = 40
             rectangles = pygame.draw.rect(window, GREY, (x, y, DRAFT_CARD_SIZE, DRAFT_CARD_SIZE))
 
-    def get_valid_placements():
+    def get_valid_placements(totems):
         pass
+
+
     def move_card(self):
         pass
 ###END OF GUI FUNCTIONS###
@@ -174,7 +175,7 @@ class MouseCard:
         pass
 ###FIRE###
 class SnakeCard:
-    """Had (instant) - dva body, může se dát kamkoliv do balíku"""
+    """Had (instant) - dva body, může se dát kamkoliv do totemu"""
     def __repr__(self):
         return "Snake"
     def getInstantPoints(self):
