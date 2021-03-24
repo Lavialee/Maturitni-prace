@@ -1,7 +1,5 @@
 import pygame
-import logika
-import random
-from card_classes import *
+import logic
 
 width = 1280
 height = 960
@@ -18,37 +16,58 @@ window = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Totem")
 
 
+def draft_image_load(card_type):
+    name = ('assets/' + card_type + '.png')
+    image = pygame.image.load(name)
+    image = pygame.transform.scale(image, (DRAFT_CARD_SIZE, DRAFT_CARD_SIZE))
+    return image
+
+
+def totem_image_load(card_type):
+    name = ('assets/' + card_type + '.png')
+    image = pygame.image.load(name)
+    image = pygame.transform.scale(image, (CARD_SIZE, CARD_SIZE))
+    return image
+
+
+def select_totem_placement(mx, my, rectangles):
+    if rectangles.collidepoint(mx, my):
+        col = (mx - MARGINS) // COLS
+        row = (my - 770 + ROWS * 175) // ROWS
+
+        print(col, row)
+
+
 class ViewCard:
     """stará se o vykreslování jednotlivých karet"""
 
-    def __init__(self, col, row, card_type):
+    def __init__(self, col, row, card_type, state):
+        self.state = state
         self.col = col
         self.row = row
         self.x = 0
         self.y = 0
         self.card_type = card_type
-        self.image_load(card_type)
-        self.calculate_pos()
+        totem_image_load(card_type)
+        draft_image_load(card_type)
+        self.calculate_totem_pos()
         self.selected_card = None
 
-    def calculate_pos(self):
-        self.x = (CARD_SIZE + PADDING) * self.col + 40
+    def calculate_totem_pos(self):
+        self.x = (CARD_SIZE + PADDING) * self.col + MARGINS
         self.y = (CARD_SIZE + PADDING) * self.row + 280
-        image = self.image_load(self.card_type)
+        image = totem_image_load(self.card_type)
         window.blit(image, (self.x, self.y))
 
-    def select_totem_placement(self, mx, my, rectangles):
-        if rectangles.collidepoint(mx, my):
-            col = (mx - 40) // COLS
-            row = (my - 770 + ROWS * 175) // ROWS
 
-            print(col, row)
 
-    def image_load(self, card_type):
-        name = ('assets/' + card_type + '.png')
-        image = pygame.image.load(name)
-        image = pygame.transform.scale(image, (CARD_SIZE, CARD_SIZE))
-        return image
+def draw_card_base(window):
+    window.fill(WHITE)
+    for col in range(COLS):
+        x = col * (CARD_SIZE + PADDING) + MARGINS
+        for row in range(ROWS):
+            y = row * (CARD_SIZE + PADDING) + 280
+            pygame.draw.rect(window, GREY, (x, y, CARD_SIZE, CARD_SIZE))
 
 
 class ViewBoard:
@@ -56,31 +75,28 @@ class ViewBoard:
 
     def __init__(self, state):
         self.state = state
+        self.hovered = False
 
-    def draw_card_base(self, window):
-        window.fill(WHITE)
-        for col in range(COLS):
-            x = col * (CARD_SIZE + PADDING) + MARGINS
-            for row in range(ROWS):
-                y = row * (CARD_SIZE + PADDING) + 280
-                rectangles = pygame.draw.rect(window, GREY, (x, y, CARD_SIZE, CARD_SIZE))
-
-    def draw_draft_base(self, window):
-        for col in range(len(self.state.draft) + 1):
-            x = col * (DRAFT_CARD_SIZE + PADDING) + MARGINS
-            y = 40
-            rectangles = pygame.draw.rect(window, GREY, (x, y, DRAFT_CARD_SIZE, DRAFT_CARD_SIZE))
+    def update_draft(self):
+        for pos in range(len(self.state.draft)):
+            x = pos * (DRAFT_CARD_SIZE + PADDING) + MARGINS
+            y = MARGINS
+            card_type = str(self.state.draft[pos])
+            name = ('assets/' + card_type + '.png')
+            image = pygame.image.load(name)
+            image = pygame.transform.scale(image, (DRAFT_CARD_SIZE, DRAFT_CARD_SIZE))
+            window.blit(image, (x, y))
 
     def draw_card_description(self):
         pass
+
 
 def main():
     """main pygame loop"""
     run = True
     clock = pygame.time.Clock()
 
-    board = ViewBoard(logika.State())
-    zkouska = ViewCard(0, 3, str(FoxCard()))
+    board = ViewBoard(logic.State())
 
     while run:
         clock.tick(60)
@@ -89,12 +105,11 @@ def main():
                 run = False
 
             if event.type == pygame.MOUSEMOTION:
-                mX, mY = pygame.mouse.get_pos()
-                print(mX, mY)
+                mx, my = pygame.mouse.get_pos()
+                print(mx, my)
 
-        board.draw_card_base(window)
-        board.draw_draft_base(window)
-        zkouska.calculate_pos()
+        draw_card_base(window)
+        board.update_draft()
         pygame.display.flip()
         """ while is_game_end == False:###zjistit jak dát aby to dělala pro aktuálního hráče???
             card = draft[ draft_pos ]
