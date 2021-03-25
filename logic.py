@@ -2,23 +2,32 @@ import random
 import numpy as np
 from card_classes import *
 
+ROWS = 4
+COLS = 6
+
 
 class State:
     """stará se o vykreslení základní desky a možných míst kam """
 
     def __init__(self):
-        p1 = Player()
-        p2 = Player()
-        self.players = [p1, p2]
-        self.current_player = random.randint(0, 1)
+        self.p1 = Player()
+        self.p2 = Player()
+        self.players = [self.p1, self.p2]
+        self.current_player = random.choice(self.players)
         self.deck = self.deck_first_deal()
         self.draft = self.first_draft()
 
-    def get_valid_placements(self, totems):
-        pass
+    def get_valid_placements(self):
+        """zjistí souřadnice, kam je možné dát do totemu karty"""
 
-    def move_card(self):
-        pass
+        possible_placements = []
+        for col in range(COLS):
+            if len(self.current_player.totems[col]) < 4:
+                possible_placements.append([col, (len(self.current_player.totems[col]))])
+            else:
+                pass
+
+        return possible_placements
 
     def deck_first_deal(self):
         draft_deck = []
@@ -26,8 +35,7 @@ class State:
         a = np.array(
             [EagleCard(), CraneCard(), OwlCard(), HummingbirdCard(), MagpieCard(), BearCard(), WolfCard(), FoxCard(),
              LynxCard(), MouseCard(), SnakeCard(), ChameleonCard(), CrocodileCard(), LizardCard(), GecoCard(),
-             SharkCard(),
-             CrabCard(), OctopusCard(), FishCard(), JellyfishCard()])  # Všechny typy karet
+             SharkCard(), CrabCard(), OctopusCard(), FishCard(), JellyfishCard()])  # Všechny typy karet
 
         s = np.array([4] * 20)  # kolik má odpovídající typ mít počet v arrayi
 
@@ -38,6 +46,7 @@ class State:
 
         for x in range(16 * len(self.players)):
             draft_deck.append(main_deck.pop(0))
+
         return draft_deck
 
     def first_draft(self):
@@ -55,12 +64,11 @@ class State:
         draft_row.append(self.deck.pop(0))
 
         return draft_row
-        pass
 
 
 class Player:
     def __init__(self):
-        self.totems = []
+        self.totems = [[], [], [], [], [], []]
         self.points = []
 
 
@@ -71,21 +79,7 @@ def is_game_end(draft, deck):
         return False
 
 
-def get_user_action_card_pick():
-    """return column and row"""
-    pass
-
-
-def solve_effect():
-    pass
-
-
-def has_instant_effect():
-    pass
-
-
-"""
-while is_game_end() is False:
+"""while is_game_end() is False:
     user_action = get_user_action()
     card = None
     if user_action == DRAFT:
@@ -105,4 +99,10 @@ elif player2Points > player1Points:
     print( "Vyhrál hráč 2.");
 else:
     print( "Remíza." );
-"""
+
+ while is_game_end == False:###zjistit jak dát aby to dělala pro aktuálního hráče???
+            card = draft[ draft_pos ]
+            totem_pos = get_user_action_totem_pick()
+            player[ current_player ][ totem_no ].append (card)
+            draft[ draft_pos ] = deck.pop()      
+        ###CARD CLASSES###    """
