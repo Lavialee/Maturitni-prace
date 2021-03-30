@@ -6,6 +6,19 @@ ROWS = 4
 COLS = 6
 
 
+class Player:
+    def __init__(self):
+        self.totems = [[], [], [], [], [], []]
+        self.points = []
+
+
+def is_game_end(draft, deck):
+    if len(draft) == 0 & len(deck) == 0:
+        return True
+    else:
+        return False
+
+
 class State:
     """stará se o vykreslení základní desky a možných míst kam """
 
@@ -64,19 +77,6 @@ class State:
         draft_row.append(self.deck.pop(0))
 
         return draft_row
-
-
-class Player:
-    def __init__(self):
-        self.totems = [[], [], [], [], [], []]
-        self.points = []
-
-
-def is_game_end(draft, deck):
-    if len(draft) == 0 & len(deck) == 0:
-        return True
-    else:
-        return False
 
 
 """while is_game_end() is False:

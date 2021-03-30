@@ -15,6 +15,7 @@ COLS = 6
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Totem")
 
+
 def select_totem_placement(mx, my, rectangles):
     if rectangles.collidepoint(mx, my):
         col = (mx - MARGINS) // COLS
@@ -29,27 +30,30 @@ def get_image(type, size):
     image = pygame.transform.scale(image, (size, size))
     return image
 
-class selectBoard:
+
+class SelectBoard:
     """stará se o vykreslování jednotlivých karet"""
 
-    def __init__(self):
+    def __init__(self, state):
         self.state = state
-        self.calculate_totem_pos()
         self.selected_card = None
 
-    def calculate_totem_pos(self):
-        self.x = (CARD_SIZE + PADDING) * self.col + MARGINS
-        self.y = (CARD_SIZE + PADDING) * self.row + 280
-        image = totem_image_load(self.card_type)
-        window.blit(image, (self.x, self.y))
-
-    def draw_card_base(self):
+    def check_collision_board(self, mx, my):
         for col in range(COLS):
             x = col * (CARD_SIZE + PADDING) + MARGINS
             for row in range(ROWS):
                 y = row * (CARD_SIZE + PADDING) + 285
-                pygame.draw.rect(window, WHITE, (x, y, CARD_SIZE, CARD_SIZE))
+                rect = pygame.draw.rect(window, GREY, (x, y, CARD_SIZE, CARD_SIZE))
+                if rect.collidepoint(mx, my) == True:
+                    return row, col
 
+    def check_collision_draft(self, mx, my):
+        for pos in range(len(self.state.draft)):
+            x = pos * (DRAFT_CARD_SIZE + PADDING) + MARGINS
+            y = MARGINS
+            rect = pygame.draw.rect(window, GREY, (x, y, CARD_SIZE, CARD_SIZE))
+            if rect.collidepoint(mx, my) == True:
+                return pos
 
 
 class ViewBoard:
@@ -77,9 +81,6 @@ class ViewBoard:
             else:
                 pass
 
-    def draw_card_description(self):
-        pass
-
 
 def main():
     """main pygame loop"""
@@ -88,6 +89,7 @@ def main():
 
     board = ViewBoard(logic.State())
     board.state.current_player.totems[0].append('Eagle')
+    pokus = SelectBoard(logic.State())
     print(board.state.get_valid_placements())
     print(board.state.current_player.totems)
 
@@ -97,15 +99,15 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
 
-            if event.type == pygame.MOUSEMOTION:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 mx, my = pygame.mouse.get_pos()
-                print(mx, my)
+                print('board:', pokus.check_collision_board(mx, my))
+                print('draft:', pokus.check_collision_draft(mx, my))
 
         window.fill(WHITE)
-        draw_card_base()
         board.update_draft()
         board.update_board()
         pygame.display.flip()
-
+x
 
 main()
