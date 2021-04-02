@@ -25,8 +25,8 @@ class State:
     def __init__(self):
         self.p1 = Player()
         self.p2 = Player()
-        self.selected_draft = []
-        self.selected_board = []
+        self.selected_draft = None
+        self.selected_board = None
         self.players = [self.p1, self.p2]
         self.current_player = random.choice(self.players)
         self.deck = self.deck_first_deal()
@@ -38,7 +38,8 @@ class State:
         possible_placements = []
         for col in range(COLS):
             if len(self.current_player.totems[col]) < 4:
-                possible_placements.append([col, (len(self.current_player.totems[col]))])
+                row = 3 - (len(self.current_player.totems[col]))
+                possible_placements.append([col, row])
             else:
                 pass
 

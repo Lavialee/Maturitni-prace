@@ -4,7 +4,8 @@ import logic
 WIDTH = 1280
 HEIGHT = 960
 WHITE = (255, 255, 255)
-GREY = (200, 200, 200)
+LIGHT_GREY = (245, 245, 245)
+DARK_GREY = (210, 210, 210)
 BLACK = (0, 0, 0)
 CARD_SIZE = 140
 DRAFT_CARD_SIZE = 175
@@ -35,58 +36,77 @@ def get_image(type, size):
 class SelectBoard:
     """stará se o vykreslování jednotlivých karet"""
 
-    def __init__(self, state):
-        self.state = state
+    def __init__(self):
         self.selected_card = None
 
-    def check_collision_board(self, mx, my):
+    def check_collision_board(self, state, mx, my):
         for col in range(COLS):
             x = col * (CARD_SIZE + PADDING) + MARGINS
             for row in range(ROWS):
                 y = row * (CARD_SIZE + PADDING) + 285
-                rect = pygame.draw.rect(window, GREY, (x, y, CARD_SIZE, CARD_SIZE))
+                rect = pygame.draw.rect(window, LIGHT_GREY, (x, y, CARD_SIZE, CARD_SIZE))
                 if rect.collidepoint(mx, my):
-                    pos = row, col
-                    logic.State.selected_board = pos
+                    pos = col, row
+                    state.selected_board = pos
                     return pos
 
-    def check_collision_draft(self, mx, my):
-        for pos in range(len(self.state.draft)):
-            x = pos * (DRAFT_CARD_SIZE + PADDING) + MARGINS
-            y = MARGINS
-            rect = pygame.draw.rect(window, GREY, (x, y, DRAFT_CARD_SIZE, DRAFT_CARD_SIZE))
-            if rect.collidepoint(mx, my):
-                logic.State.selected_draft = pos
-                return pos
-
-
-class ViewBoard:
-    """vykresluje board"""
-
-    def __init__(self, state):
-        self.state = state
-        self.hovered = False
-
-    def update_draft(self, state):
+    def check_collision_draft(self, state, mx, my):
         for pos in range(len(state.draft)):
             x = pos * (DRAFT_CARD_SIZE + PADDING) + MARGINS
             y = MARGINS
-            image = get_image(str(self.state.draft[pos]), DRAFT_CARD_SIZE)
+            rect = pygame.draw.rect(window, LIGHT_GREY, (x, y, DRAFT_CARD_SIZE, DRAFT_CARD_SIZE))
+            if rect.collidepoint(mx, my):
+                state.selected_draft = pos
+
+
+class ViewBoard:
+    """vykresluje vše"""
+
+    def __init__(self):
+        self.hovered = False
+
+    def update_draft(self, state):
+        """vykresluje draft"""
+
+        for pos in range(len(state.draft)):
+            x = pos * (DRAFT_CARD_SIZE + PADDING) + MARGINS
+            y = MARGINS
+            image = get_image(str(state.draft[pos]), DRAFT_CARD_SIZE)
             window.blit(image, (x, y))
         a = state.selected_draft
-        print(a)
-        if len(a)>0:
-            print('workin')
-            pygame.draw.rect(window, BLACK, (a, MARGINS, DRAFT_CARD_SIZE + 2, DRAFT_CARD_SIZE + 2), 3, border_radius=1)
+        if a is not None:
+            pygame.draw.rect(window, BLACK,
+                             ((a * (DRAFT_CARD_SIZE + PADDING) + MARGINS), MARGINS, DRAFT_CARD_SIZE, DRAFT_CARD_SIZE),
+                             3, border_radius=1)
 
     def update_board(self, state):
+        """vykresluje board"""
+
         for col in range(COLS):
+            x = col * (CARD_SIZE + PADDING) + MARGINS
+            for row in range(ROWS):
+                y = row * (CARD_SIZE + PADDING) + 285
+                pygame.draw.rect(window, LIGHT_GREY, (x, y, CARD_SIZE, CARD_SIZE))
+
             if len(state.current_player.totems[col]) > 0:
-                x = col * (CARD_SIZE + PADDING) + MARGINS
                 for row in range(len(state.current_player.totems[col])):
-                    y = HEIGHT - MARGINS - (row + 1 * CARD_SIZE) - (row * PADDING)
-                    image = get_image(str(self.state.current_player.totems[col][row]), CARD_SIZE)
+                    y = HEIGHT - MARGINS - ((row + 1) * CARD_SIZE) - (row * PADDING)
+                    image = get_image(str(state.current_player.totems[col][row]), CARD_SIZE)
                     window.blit(image, (x, y))
+
+        valid = state.get_valid_placements()
+        for pos in range(len(state.get_valid_placements())):
+            col, row = valid[pos]
+            a = col * (CARD_SIZE + PADDING) + MARGINS
+            b = row * (CARD_SIZE + PADDING) + 285
+            pygame.draw.rect(window, DARK_GREY, (a, b, CARD_SIZE, CARD_SIZE), 5, border_radius=1)
+
+        if state.selected_board is not None:
+            col, row = state.selected_board
+            c = col * (CARD_SIZE + PADDING) + MARGINS
+            d = row * (CARD_SIZE + PADDING) + 285
+            pygame.draw.rect(window, BLACK, (c, d, CARD_SIZE, CARD_SIZE), 3, border_radius=1)
+
 
 
 def main():
@@ -94,8 +114,23 @@ def main():
     run = True
     clock = pygame.time.Clock()
 
-    board = ViewBoard(logic.State())
-    pokus = SelectBoard(logic.State())
+    state = logic.State()
+    state.current_player.totems[0].append('Lynx')
+    state.current_player.totems[0].append('Lynx')
+    state.current_player.totems[0].append('Lynx')
+    state.current_player.totems[1].append('Lynx')
+    state.current_player.totems[1].append('Lynx')
+    state.current_player.totems[2].append('Lynx')
+    state.current_player.totems[2].append('Lynx')
+    state.current_player.totems[2].append('Lynx')
+    state.current_player.totems[5].append('Lynx')
+    state.current_player.totems[5].append('Lynx')
+
+    print(state.current_player.totems)
+    print(state.get_valid_placements())
+
+    board = ViewBoard()
+    select = SelectBoard()
 
     while run:
         clock.tick(60)
@@ -105,13 +140,15 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mx, my = pygame.mouse.get_pos()
-                pokus.check_collision_board(mx, my)
-                pokus.check_collision_draft(mx, my)
-                print('selected:', logic.State.selected_draft)
+                select.check_collision_board(state, mx, my)
+                select.check_collision_draft(state, mx, my)
+
+                print('draft v logic:', state.selected_draft)
+                print('board v logic:', state.selected_board)
 
         window.fill(WHITE)
-        board.update_draft(logic.State())
-        board.update_board(logic.State())
+        board.update_draft(state)
+        board.update_board(state)
         pygame.display.flip()
 
 
