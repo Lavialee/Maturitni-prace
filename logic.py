@@ -25,6 +25,8 @@ class State:
     def __init__(self):
         self.p1 = Player()
         self.p2 = Player()
+        self.selected_draft = []
+        self.selected_board = []
         self.players = [self.p1, self.p2]
         self.current_player = random.choice(self.players)
         self.deck = self.deck_first_deal()

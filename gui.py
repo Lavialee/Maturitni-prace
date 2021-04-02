@@ -5,6 +5,7 @@ WIDTH = 1280
 HEIGHT = 960
 WHITE = (255, 255, 255)
 GREY = (200, 200, 200)
+BLACK = (0, 0, 0)
 CARD_SIZE = 140
 DRAFT_CARD_SIZE = 175
 PADDING = 25
@@ -44,15 +45,18 @@ class SelectBoard:
             for row in range(ROWS):
                 y = row * (CARD_SIZE + PADDING) + 285
                 rect = pygame.draw.rect(window, GREY, (x, y, CARD_SIZE, CARD_SIZE))
-                if rect.collidepoint(mx, my) == True:
-                    return row, col
+                if rect.collidepoint(mx, my):
+                    pos = row, col
+                    logic.State.selected_board = pos
+                    return pos
 
     def check_collision_draft(self, mx, my):
         for pos in range(len(self.state.draft)):
             x = pos * (DRAFT_CARD_SIZE + PADDING) + MARGINS
             y = MARGINS
-            rect = pygame.draw.rect(window, GREY, (x, y, CARD_SIZE, CARD_SIZE))
-            if rect.collidepoint(mx, my) == True:
+            rect = pygame.draw.rect(window, GREY, (x, y, DRAFT_CARD_SIZE, DRAFT_CARD_SIZE))
+            if rect.collidepoint(mx, my):
+                logic.State.selected_draft = pos
                 return pos
 
 
@@ -63,23 +67,26 @@ class ViewBoard:
         self.state = state
         self.hovered = False
 
-    def update_draft(self):
-        for pos in range(len(self.state.draft)):
+    def update_draft(self, state):
+        for pos in range(len(state.draft)):
             x = pos * (DRAFT_CARD_SIZE + PADDING) + MARGINS
             y = MARGINS
             image = get_image(str(self.state.draft[pos]), DRAFT_CARD_SIZE)
             window.blit(image, (x, y))
+        a = state.selected_draft
+        print(a)
+        if len(a)>0:
+            print('workin')
+            pygame.draw.rect(window, BLACK, (a, MARGINS, DRAFT_CARD_SIZE + 2, DRAFT_CARD_SIZE + 2), 3, border_radius=1)
 
-    def update_board(self):
+    def update_board(self, state):
         for col in range(COLS):
-            if len(self.state.current_player.totems[col]) > 0:
+            if len(state.current_player.totems[col]) > 0:
                 x = col * (CARD_SIZE + PADDING) + MARGINS
-                for row in range(len(self.state.current_player.totems[col])):
+                for row in range(len(state.current_player.totems[col])):
                     y = HEIGHT - MARGINS - (row + 1 * CARD_SIZE) - (row * PADDING)
                     image = get_image(str(self.state.current_player.totems[col][row]), CARD_SIZE)
                     window.blit(image, (x, y))
-            else:
-                pass
 
 
 def main():
@@ -88,10 +95,7 @@ def main():
     clock = pygame.time.Clock()
 
     board = ViewBoard(logic.State())
-    board.state.current_player.totems[0].append('Eagle')
     pokus = SelectBoard(logic.State())
-    print(board.state.get_valid_placements())
-    print(board.state.current_player.totems)
 
     while run:
         clock.tick(60)
@@ -101,13 +105,14 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mx, my = pygame.mouse.get_pos()
-                print('board:', pokus.check_collision_board(mx, my))
-                print('draft:', pokus.check_collision_draft(mx, my))
+                pokus.check_collision_board(mx, my)
+                pokus.check_collision_draft(mx, my)
+                print('selected:', logic.State.selected_draft)
 
         window.fill(WHITE)
-        board.update_draft()
-        board.update_board()
+        board.update_draft(logic.State())
+        board.update_board(logic.State())
         pygame.display.flip()
-x
+
 
 main()
