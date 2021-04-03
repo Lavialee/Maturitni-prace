@@ -27,10 +27,12 @@ class State:
         self.p2 = Player()
         self.selected_draft = None
         self.selected_board = None
+        self.hovered = None
         self.players = [self.p1, self.p2]
         self.current_player = random.choice(self.players)
         self.deck = self.deck_first_deal()
         self.draft = self.first_draft()
+        self.button_pressed = False
 
     def get_valid_placements(self):
         """zjistí souřadnice, kam je možné dát do totemu karty"""
