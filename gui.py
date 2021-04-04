@@ -69,9 +69,10 @@ class SelectBoard:
                 state.hovered = pos
 
     def buttons(self, state, mx, my):
-        rect = pygame.draw.rect(window, WHITE, (210, 60, 1030, 780))
-        if rect.collidepoint(mx, my):
+        butt = pygame.draw.rect(window, BLACK, ( 1030, 780, 210, 60))
+        if butt.collidepoint(mx, my):
             state.button_pressed = True
+
 
 class ViewBoard:
     """vykresluje vše"""
@@ -104,6 +105,7 @@ class ViewBoard:
                     window.blit(image, (x, y))
 
         for pos in range(len(state.get_valid_placements())):
+            self.valid = state.get_valid_placements()
             col, row = self.valid[pos]
             a = col * (CARD_SIZE + PADDING) + MARGINS
             b = row * (CARD_SIZE + PADDING) + BOARD_MARGIN
@@ -139,6 +141,9 @@ class ViewBoard:
         """vykresluje tlačítka"""
         image = pygame.image.load('assets/move.png')
         window.blit(image, (1030, 780))
+        if state.button_pressed:
+            state.turn_end()
+            state.button_pressed = False
 
 
 def main():
@@ -147,20 +152,7 @@ def main():
     clock = pygame.time.Clock()
 
     state = logic.State()
-    state.current_player.totems[0].append('Eagle')
-    state.current_player.totems[0].append('Lynx')
-    state.current_player.totems[0].append('Lynx')
-    state.current_player.totems[1].append('Lynx')
-    state.current_player.totems[1].append('Lynx')
-    state.current_player.totems[2].append('Lynx')
-    state.current_player.totems[2].append('Lynx')
-    state.current_player.totems[2].append('Lynx')
-    state.current_player.totems[5].append('Eagle')
-    state.current_player.totems[5].append('Eagle')
-
-    print(state.current_player.totems)
-    print(state.get_valid_placements())
-
+    print(state.draft)
     board = ViewBoard(state)
     select = SelectBoard()
 
@@ -176,22 +168,17 @@ def main():
                 select.check_collision_draft(state, mx, my)
                 select.buttons(state, mx, my)
 
-                print('draft selected:', state.selected_draft)
-                print('board selected:', state.selected_board)
-                print('button', state.button_pressed)
-
-
             if event.type == pygame.MOUSEMOTION:
                 mx, my = pygame.mouse.get_pos()
                 select.check_hovered(state, mx, my)
-                print('hovered:', state.hovered)
 
-        window.fill(WHITE)
-        board.update_draft(state)
-        board.update_board(state)
-        board.sidebar(state)
-        board.buttons(state)
-        pygame.display.flip()
+
+            window.fill(WHITE)
+            board.update_draft(state)
+            board.update_board(state)
+            board.sidebar(state)
+            board.buttons(state)
+            pygame.display.flip()
 
 
 main()

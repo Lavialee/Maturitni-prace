@@ -83,6 +83,17 @@ class State:
 
         return draft_row
 
+    def turn_end(self):
+        if list(self.selected_board) in self.get_valid_placements():
+            x, y = self.selected_board
+            self.current_player.totems[x].append(self.draft.pop(self.selected_draft))
+            self.get_valid_placements()
+            if self.deck and self.draft:
+                self.draft.append(self.deck.pop(0))
+            elif self.draft:
+                print('empty deck')
+            else:
+                print('game end')
 
 """while is_game_end() is False:
     user_action = get_user_action()
