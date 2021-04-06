@@ -22,9 +22,10 @@ def is_game_end(draft, deck):
 class State:
     """stará se o vykreslení základní desky a možných míst kam """
 
-    def __init__(self):
+    def __init__(self, id):
         self.p1 = Player()
         self.p2 = Player()
+        self.id = id
         self.selected_draft = None
         self.selected_board = None
         self.hovered = None
@@ -95,6 +96,7 @@ class State:
             else:
                 print('game end')
 
+
 """while is_game_end() is False:
     user_action = get_user_action()
     card = None
@@ -106,7 +108,7 @@ class State:
         player[ current_player ][ totems ][ totem_no ].append( card )
     if has_instant_effect( card ):
         players[ current_player ][ instantPoints ] += solve_instant_effect( card )
-    current_player = not current_player
+    current_player = not current_player++++
 player1Points = get_totem_points( player[ 0 ][ totems ] ) + player[ 0 ][ instantPoints ]
 player2Points = get_totem_points( player[ 1 ][ totems ] ) + player[ 1 ][ instantPoints ]
 if player1Points > player2Points:

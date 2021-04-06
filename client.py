@@ -1,5 +1,7 @@
 import pygame
-import logic
+from network import Network
+
+pygame.font.init()
 
 WIDTH = 1280
 HEIGHT = 960
@@ -150,14 +152,19 @@ def main():
     """main pygame loop"""
     run = True
     clock = pygame.time.Clock()
-
-    state = logic.State()
-    print(state.draft)
-    board = ViewBoard(state)
+    n = Network()
+    player = int(n.getP())
     select = SelectBoard()
 
     while run:
         clock.tick(60)
+        try:
+            state = n.send("get")
+        except:
+            run = False
+            print("Couldn't get game")
+            break
+        board = ViewBoard(state)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -171,7 +178,6 @@ def main():
             if event.type == pygame.MOUSEMOTION:
                 mx, my = pygame.mouse.get_pos()
                 select.check_hovered(state, mx, my)
-
 
             window.fill(WHITE)
             board.update_draft(state)
