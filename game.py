@@ -15,6 +15,7 @@ class Player:
 
 
 class Game:
+    """holds game data"""
 
     def __init__(self, id):
         self.p1 = Player()
@@ -52,7 +53,6 @@ class Game:
             print(player, self.p[int(player)].points)
 
     def evaluate_final(self, player, sel, x):
-
         pass
 
     def reset(self):
@@ -69,7 +69,7 @@ class Game:
         draft_deck = []
         print('first')
         a = np.array(
-            [EagleCard(), CraneCard(), OwlCard(), HummingbirdCard(), MagpieCard(), BearCard(), WolfCard(), FoxCard(),
+            [EagleCard(), CraneCard(), OwlCard(), HummingbirdCard(), MagpieCard(), BearCard(), FoxCard(),
              LynxCard(), MouseCard(), SnakeCard(), ChameleonCard(), CrocodileCard(), LizardCard(), GecoCard(),
              SharkCard(), CrabCard(), OctopusCard(), FishCard(), JellyfishCard()])  # Všechny typy karet
 
@@ -94,20 +94,10 @@ class Game:
 
         return draft_row
 
-
-"""
-player1Points = get_totem_points( player[ 0 ][ totems ] ) + player[ 0 ][ instantPoints ]
-player2Points = get_totem_points( player[ 1 ][ totems ] ) + player[ 1 ][ instantPoints ]
-if player1Points > player2Points:
-    print( "Vyhrál hráč 1." );
-elif player2Points > player1Points:
-    print( "Vyhrál hráč 2.");
-else:
-    print( "Remíza." );
- while is_game_end == False:###zjistit jak dát aby to dělala pro aktuálního hráče???
-            card = draft[ draft_pos ]
-            totem_pos = get_user_action_totem_pick()
-            player[ current_player ][ totem_no ].append (card)
-            draft[ draft_pos ] = deck.pop()      
-"""
-
+    def winner(self):
+        if self.p1.points > self.p2.points:
+            print("Player 1 wins!")
+        elif self.p2.points > self.p1.points:
+            print("Player 2 wins!")
+        else:
+            print("Remíza")

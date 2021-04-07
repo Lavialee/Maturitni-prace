@@ -1,12 +1,4 @@
-# Maturitni-prace
-To-Do short term
-- [ ] tlačítko pro zobrazení pravidel
-
-To-Do long term
-- [ ] zvolit hráče
-- [ ] logika hry
-- [ ] grafika
-
-
-DEPENDENCIES
-NumPy, PyGame
+# Maturitní-práce - spuštění
+- Dependencies: Pygame
+- v server.py a network.py přenastavit používanou ip adresu
+- Jednou spustit server, k němu dvakrát client.py (mělo by bez firewallu a zábran fungovat na různých počítačů)

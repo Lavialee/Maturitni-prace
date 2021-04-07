@@ -42,7 +42,7 @@ class OwlCard:
     def get_instant_points(self, p_totems, sel, x):
         prey_bonus = 0
         for prey in range(len(p_totems[x])):
-            if p_totems[x][prey] is MouseCard or SnakeCard or LizardCard or ChameleonCard:
+            if isinstance(p_totems[x][prey], (MouseCard, SnakeCard, LizardCard, ChameleonCard)):
                 prey_bonus += 2
         points = 1 + prey_bonus
         return points
@@ -80,8 +80,11 @@ class MagpieCard:
         air_bonus = 0
         for col in range(len(p_totems)):
             for row in range(len(p_totems[x])):
-                if p_totems[col][row].element == 'Air' or ChameleonCard:
-                    air_bonus += 1
+                try:
+                    if p_totems[col][row].element == 'Air' or isinstance(p_totems[col][row], ChameleonCard):
+                        air_bonus += 1
+                except IndexError:
+                    pass
 
         points = 1 + air_bonus
         return points
@@ -119,9 +122,12 @@ class WolfCard:
         pack = 0
 
         for col in p_totems:
-            for row in p_totems:
-                if p_totems[col][row] == WolfCard or ChameleonCard:
-                    pack += 1
+            for row in len(p_totems[col]):
+                try:
+                    if isinstance(p_totems[col][row], (WolfCard, ChameleonCard)):
+                        pack += 1
+                except IndexError:
+                    pass
         pack_bonus = 2 * pack
         points = 2 + pack_bonus
         return points
@@ -186,7 +192,7 @@ class SnakeCard:
     def get_instant_points(self, p_totems, sel, x):
         prey_bonus = 0
         for prey in range(len(p_totems[x])):
-            if p_totems[x][prey] is MouseCard or ChameleonCard:
+            if isinstance(p_totems[x][prey], (MouseCard, ChameleonCard)):
                 prey_bonus += 3
         points = 1 + prey_bonus
         return points
@@ -222,9 +228,12 @@ class CrocodileCard:
 
     def get_instant_points(self, p_totems, sel, x):
         water_bonus = 0
-        for water in range(6):
-            if p_totems[water][x].element == 'Water':
-                water_bonus += 2
+        for water in range(len(p_totems)):
+            try:
+                if p_totems[water][x].element == 'Water':
+                    water_bonus += 2
+            except IndexError:
+                pass
         points = 1 + water_bonus
         return points
 
@@ -245,12 +254,18 @@ class LizardCard:
     def get_instant_points(self, p_totems, sel, x):
         lizard_bonus = 0
         for col in range(len(p_totems)):
-            if p_totems[col][x] == LizardCard or ChameleonCard:
-                lizard_bonus += 1
+            try:
+                if isinstance(p_totems[col][x], (LizardCard, ChameleonCard)):
+                    lizard_bonus += 1
+            except IndexError:
+                pass
 
         for row in range(len(p_totems)):
-            if p_totems[x][row] == LizardCard or ChameleonCard:
-                lizard_bonus += 1
+            try:
+                if isinstance(p_totems[x][row], (LizardCard, ChameleonCard)):
+                    lizard_bonus += 1
+            except IndexError:
+                pass
         points = 1 + lizard_bonus
         return points
 
@@ -328,7 +343,7 @@ class FishCard:
     def get_instant_points(self, p_totems, sel, x):
         element_penalty = 0
         for y in range(len(p_totems[x])):
-            if p_totems[x][y].element != 'Water' or ChameleonCard:
+            if p_totems[x][y].element != 'Water' or isinstance(p_totems[x][y], ChameleonCard):
                 element_penalty += 1
         points = 5 - element_penalty
         return points
