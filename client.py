@@ -3,8 +3,10 @@ import pygame.freetype
 from network import Network
 from card_classes import *
 
+pygame.init()
 pygame.font.init()
 pygame.freetype.init()
+
 
 WIDTH = 1280
 HEIGHT = 960
@@ -51,6 +53,13 @@ def get_opponent(player):
         return 2
     else:
         return 1
+
+
+def game_is_end(state):
+    if not state.draft and state.deck == []:
+        return True
+    else:
+        return False
 
 
 def word_wrap(surf, text, font, color=(0, 0, 0)):
@@ -131,7 +140,7 @@ class SelectBoard:
 
 
 class ViewBoard:
-    """vykresluje stav hry"""
+    """draws the state of the game"""
 
     def __init__(self, player, opponent):
         self.end_turn_pressed = False
@@ -143,7 +152,7 @@ class ViewBoard:
         self.viewed_board = player
 
     def update_draft(self, state):
-        """vykresluje draft"""
+        """draws the draft"""
         for pos in range(len(state.draft)):
             x = pos * (DRAFT_CARD_SIZE + PADDING) + MARGINS
             y = MARGINS
@@ -161,7 +170,7 @@ class ViewBoard:
             pygame.draw.rect(window, BLACK, (place, MARGINS, DRAFT_CARD_SIZE, DRAFT_CARD_SIZE), 3, border_radius=1)
 
     def update_board(self, state):
-        """vykresluje board"""
+        """draws the board"""
         self.your_turn = your_turn(state, self.player)
         for col in range(COLS):
             x = col * (CARD_SIZE + PADDING) + MARGINS
@@ -186,18 +195,16 @@ class ViewBoard:
             else:
                 pass
 
-    def sidebar(self, state):
-        """vykresluje info o kartách"""
+    def sidebars(self, state):
+        """draws information about the cards and points"""
         font_a = pygame.font.SysFont("Arial", 40)
-        points = 'points on this board: ' + str((eval(f"state.p{self.viewed_board}.points")))
+        points = 'points on selected board: ' + str((eval(f"state.p{self.viewed_board}.points")))
         point_text = font_a.render(points, 1, (0, 0, 0))
-
-        window.blit(point_text, (25 ,5))
-
+        window.blit(point_text, (25, 5))
         sidebar = pygame.Surface((210, 470))
         sidebar.fill(WHITE)
 
-        if self.hovered is not None and len(str(self.hovered)) <= 2:  # draft hovered
+        if self.hovered is not None and len(str(self.hovered)) <= 2:
             pos = self.hovered
             image = get_image(str(state.draft[pos]), 210, 210)
             text = get_text(str(state.draft[pos]))
@@ -206,7 +213,7 @@ class ViewBoard:
             window.blit(image, (1030, BOARD_MARGIN))
 
 
-        elif self.hovered is not None:  # board hovered
+        elif self.hovered is not None:
             col, row = self.hovered
             row = 3 - row
             if row <= (len(eval(f"state.p{self.viewed_board}.totems[col]")) - 1):
@@ -254,7 +261,6 @@ class ViewBoard:
                 return True
 
 
-
 def main():
     """main pygame loop"""
     run = True
@@ -273,12 +279,15 @@ def main():
             run = False
             print("Couldn't get game")
             break
+
         if board.turn_end(state):
-            print('sent')
             x, y = board.selected_board
             n.send(str(board.selected_draft) + ',' + str(x) + ',' + str(y))
             board.selected_board = None
             board.selected_draft = None
+
+        if game_is_end(state):
+            print("GAME ENDED")
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -286,8 +295,8 @@ def main():
                 pygame.quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-
                 mx, my = pygame.mouse.get_pos()
+
                 select.end_of_turn_btn(board, mx, my)
                 select.view_board_btn(board, mx, my)
                 if your_turn(state, player) and board.viewed_board == player:
@@ -298,24 +307,25 @@ def main():
                 mx, my = pygame.mouse.get_pos()
                 select.check_hovered(state, board, mx, my)
 
-        if not state.ready:
-            window.fill((230, 225, 161))
-            font = pygame.font.SysFont("Arial", 60)
-            text = font.render("Waitning", 1, (0, 0, 0))
-            window.blit(text, (100, 200))
-            pygame.display.update()
+            if not state.ready:
+                window.fill((230, 225, 161))
+                font = pygame.font.SysFont("Arial", 60)
+                text = font.render("Waiting for second player...", 1, (0, 0, 0))
+                window.blit(text, (40, 400))
+                pygame.display.update()
 
-        else:
-            window.fill(WHITE)
-            board.sidebar(state)
-            board.update_draft(state)
-            board.update_board(state)
-            board.sidebar(state)
-            board.buttons()
-            pygame.display.flip()
+            else:
+
+                window.fill(WHITE)
+                board.update_draft(state)
+                board.update_board(state)
+                board.sidebars(state)
+                board.buttons()
+                pygame.display.flip()
 
 
 def menu_screen():
+    """draws a basic menu screen"""
     run = True
     clock = pygame.time.Clock()
 
@@ -327,7 +337,7 @@ def menu_screen():
         menu.fill((230, 225, 161))
         font_a = pygame.font.SysFont("Arial", 60)
         text_click = font_a.render("Click to Play!", 1, (0, 0, 0))
-        rules = "The rules are simple - make totems that bring you the most points! Take turns picking cards from the " \
+        rules = "The rules are simple - make totems that bring you the most points! Take turns picking cards from the "\
                 "central draft. Remember you have to build them from the bottom up. " \
                 "Instant cards give you points instantly, passives have modifiers, and EoG (End " \
                 "of Game) are counted up at the end of the game - when the draft runs dry. You should also check your" \
@@ -347,5 +357,7 @@ def menu_screen():
                 run = False
 
     main()
+
+
 while True:
     menu_screen()

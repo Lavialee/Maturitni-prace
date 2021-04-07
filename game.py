@@ -11,6 +11,7 @@ class Player:
         self.points = 0
         self.num = self
 
+
 class Game:
     """stará se o vykreslení základní desky a možných míst kam """
 
@@ -23,7 +24,6 @@ class Game:
         self.draft = self.first_draft()
         self.current_player = 1
         self.ready = False
-
 
     def play(self, player, move):
         self.current_player = 2 - player
@@ -39,17 +39,16 @@ class Game:
             self.evaluate_move(sel, x, player)
             self.p[int(player)].totems[x].append(self.deck.pop())
 
-
     def evaluate_move(self, player, sel, x):
-        print(self.p[int(player)].totems)
         card = self.draft[sel]
-        print(len(self.p[int(player)].totems[x]))
         if card.type == 'instant':
             points = card.get_instant_points(player, sel, x)
             self.p[int(player)].points = self.p[int(player)].points + points
             print(player, self.p[int(player)].points)
         print(card.type)
 
+    def evaluate_final(self, player, sel, x):
+        pass
 
     def reset(self):
         self.p1 = Player()
@@ -91,19 +90,7 @@ class Game:
         return draft_row
 
 
-
-"""while is_game_end() is False:
-    user_action = get_user_action()
-    card = None
-    if user_action == DRAFT:
-        draft_pos = get_user_action_draft_pos()
-        card = draft[ draft_pos ]
-        draft[ draft_pos ] = deck.pop()
-        totem_no = get_user_action_totem_number()
-        player[ current_player ][ totems ][ totem_no ].append( card )
-    if has_instant_effect( card ):
-        players[ current_player ][ instantPoints ] += solve_instant_effect( card )
-    current_player = not current_player++++
+"""
 player1Points = get_totem_points( player[ 0 ][ totems ] ) + player[ 0 ][ instantPoints ]
 player2Points = get_totem_points( player[ 1 ][ totems ] ) + player[ 1 ][ instantPoints ]
 if player1Points > player2Points:
@@ -112,13 +99,12 @@ elif player2Points > player1Points:
     print( "Vyhrál hráč 2.");
 else:
     print( "Remíza." );
-
  while is_game_end == False:###zjistit jak dát aby to dělala pro aktuálního hráče???
             card = draft[ draft_pos ]
             totem_pos = get_user_action_totem_pick()
             player[ current_player ][ totem_no ].append (card)
             draft[ draft_pos ] = deck.pop()      
-        ###CARD CLASSES###    """
+"""
 
 
 # CARD CLASSES #
@@ -290,6 +276,7 @@ class SnakeCard:
     def get_instant_points(self, player, sel, x):
         points = 10
         return points
+
     def get_eog_points(self):
         pass
 
