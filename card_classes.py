@@ -1,7 +1,7 @@
 # CARD CLASSES #
 # AIR #
 class EagleCard:
-    """Eagle (air, instant) - gain one point instantly, plus 2 points for each totem block under it"""
+    """Eagle (air, instant) - gain one point instantly, plus two points for each totem block under it"""
 
     def __init__(self):
         self.element = 'Air'
@@ -10,12 +10,13 @@ class EagleCard:
     def __repr__(self):
         return "Eagle"
 
-    def get_instant_points(self):
-        pass
+    def get_instant_points(self, p_totems, sel, x):
+        points = 1 + (2 * len(p_totems[x]))
+        return points
 
 
 class CraneCard:
-    """Crane (air, EoG) - gain one point, and additional 2 points for every crane in a diagonal from it"""
+    """Crane (air, EoG) - gain one point, and additional two points for every crane in a diagonal from it"""
 
     def __init__(self):
         self.element = 'Air'
@@ -24,49 +25,49 @@ class CraneCard:
     def __repr__(self):
         return "Crane"
 
-    def get_instant_points(self):
-        pass
-
     def get_eog_points(self):
         pass
 
 
 class OwlCard:
-    """Owl (air, passive) - all instant cards placed in it's totem after, give aditional 3 points"""
+    """Owl (air, instant) - one point, aditional 2 points for every mouse, snake or lizard in this totem"""
 
     def __init__(self):
         self.element = 'Air'
-        self.type = 'passive'
+        self.type = 'instant'
 
     def __repr__(self):
         return "Owl"
 
-    def get_instant_points(self):
-        pass
-
-    def get_eog_points(self):
-        pass
+    def get_instant_points(self, p_totems, sel, x):
+        prey_bonus = 0
+        for prey in range(len(p_totems[x])):
+            if p_totems[x][prey] is MouseCard or SnakeCard or LizardCard or ChameleonCard:
+                prey_bonus += 2
+        points = 1 + prey_bonus
+        return points
 
 
 class HummingbirdCard:
-    """Hummingbird (air, passive) - if there's less than three totem blocks in it's totem, EoG effects are double"""
+    """Hummingbird (air, instant) - 4 points if placed second in a totem, otherwise just one"""
 
     def __init__(self):
         self.element = 'Air'
-        self.type = 'passive'
+        self.type = 'instant'
 
     def __repr__(self):
         return "Hummingbird"
 
-    def get_instant_points(self):
-        pass
-
-    def get_eog_points(self):
-        pass
+    def get_instant_points(self, p_totems, sel, x):
+        if len(p_totems[x]) == 1:
+            points = 4
+        else:
+            points = 1
+        return points
 
 
 class MagpieCard:
-    """Magpie (air, instant) - get 1 point, and 1 additional point for all air types on your board"""
+    """Magpie (air, instant) - get one point, and one additional point for all air types on your board"""
 
     def __init__(self):
         self.element = 'Air'
@@ -75,8 +76,15 @@ class MagpieCard:
     def __repr__(self):
         return "Magpie"
 
-    def get_instant_points(self):
-        pass
+    def get_instant_points(self, p_totems, sel, x):
+        air_bonus = 0
+        for col in range(len(p_totems)):
+            for row in range(len(p_totems[x])):
+                if p_totems[col][row].element == 'Air' or ChameleonCard:
+                    air_bonus += 1
+
+        points = 1 + air_bonus
+        return points
 
     def get_eog_points(self):
         pass
@@ -84,17 +92,14 @@ class MagpieCard:
 
 # EARTH #
 class BearCard:
-    """Bear (earth, passive) - if his totem has more than 2 blocks, instant effects get a 1,5 multiplyer"""
+    """Bear (earth, EoG) - if its alone in its totem at the end, get 5 points, otherwise two points"""
 
     def __init__(self):
         self.element = 'Earth'
-        self.type = 'passive'
+        self.type = 'EoG'
 
     def __repr__(self):
         return "Bear"
-
-    def get_instant_points(self):
-        pass
 
     def get_eog_points(self):
         pass
@@ -110,8 +115,16 @@ class WolfCard:
     def __repr__(self):
         return "Wolf"
 
-    def get_instant_points(self):
-        pass
+    def get_instant_points(self, p_totems, sel, x):
+        pack = 0
+
+        for col in p_totems:
+            for row in p_totems:
+                if p_totems[col][row] == WolfCard or ChameleonCard:
+                    pack += 1
+        pack_bonus = 2 * pack
+        points = 2 + pack_bonus
+        return points
 
     def get_eog_points(self):
         pass
@@ -127,9 +140,6 @@ class FoxCard:
     def __repr__(self):
         return "Fox"
 
-    def get_instant_points(self):
-        pass
-
     def get_eog_points(self):
         pass
 
@@ -144,15 +154,12 @@ class LynxCard:
     def __repr__(self):
         return "Lynx"
 
-    def get_instant_points(self):
-        pass
-
     def get_eog_points(self):
         pass
 
 
 class MouseCard:
-    """Mouse (earth, EoG) - one point, +1 point for any mice in a one block radius of it"""
+    """Mouse (earth, EoG) - one point, plus one point for any mice in a one block radius of it"""
 
     def __init__(self):
         self.element = 'Earth'
@@ -161,16 +168,13 @@ class MouseCard:
     def __repr__(self):
         return "Mouse"
 
-    def get_instant_points(self):
-        pass
-
     def get_eog_points(self):
         pass
 
 
 # FIRE #
 class SnakeCard:
-    """Snake (fire, instant) - two points, additional one point for any mice in its totem"""
+    """Snake (fire, instant) - one point, additional three points for any mice in its totem"""
 
     def __init__(self):
         self.element = 'Fire'
@@ -179,11 +183,13 @@ class SnakeCard:
     def __repr__(self):
         return "Snake"
 
-    def get_instant_points(self):
-        pass
-
-    def get_eog_points(self):
-        pass
+    def get_instant_points(self, p_totems, sel, x):
+        prey_bonus = 0
+        for prey in range(len(p_totems[x])):
+            if p_totems[x][prey] is MouseCard or ChameleonCard:
+                prey_bonus += 3
+        points = 1 + prey_bonus
+        return points
 
 
 class ChameleonCard:
@@ -196,15 +202,16 @@ class ChameleonCard:
     def __repr__(self):
         return "Chameleon"
 
-    def get_instant_points(self):
-        pass
+    def get_instant_points(self, p_totems, sel, x):
+        points = 1
+        return points
 
     def get_eog_points(self):
         pass
 
 
 class CrocodileCard:
-    """Crocodile (fire, instant) - one point, add one point for every water animal in its row"""
+    """Crocodile (fire, instant) - one point, add two points for every water animal in its row"""
 
     def __init__(self):
         self.element = 'Fire'
@@ -213,8 +220,13 @@ class CrocodileCard:
     def __repr__(self):
         return "Crocodile"
 
-    def get_instant_points(self):
-        pass
+    def get_instant_points(self, p_totems, sel, x):
+        water_bonus = 0
+        for water in range(6):
+            if p_totems[water][x].element == 'Water':
+                water_bonus += 2
+        points = 1 + water_bonus
+        return points
 
     def get_eog_points(self):
         pass
@@ -230,8 +242,17 @@ class LizardCard:
     def __repr__(self):
         return "Lizard"
 
-    def get_instant_points(self):
-        pass
+    def get_instant_points(self, p_totems, sel, x):
+        lizard_bonus = 0
+        for col in range(len(p_totems)):
+            if p_totems[col][x] == LizardCard or ChameleonCard:
+                lizard_bonus += 1
+
+        for row in range(len(p_totems)):
+            if p_totems[x][row] == LizardCard or ChameleonCard:
+                lizard_bonus += 1
+        points = 1 + lizard_bonus
+        return points
 
     def get_eog_points(self):
         pass
@@ -246,9 +267,6 @@ class GecoCard:
 
     def __repr__(self):
         return "Geco"
-
-    def get_instant_points(self):
-        pass
 
     def get_eog_points(self):
         pass
@@ -265,9 +283,6 @@ class SharkCard:
     def __repr__(self):
         return "Shark"
 
-    def get_instant_points(self):
-        pass
-
     def get_eog_points(self):
         pass
 
@@ -281,9 +296,6 @@ class CrabCard:
 
     def __repr__(self):
         return "Crab"
-
-    def get_instant_points(self):
-        pass
 
     def get_eog_points(self):
         pass
@@ -299,9 +311,6 @@ class OctopusCard:
     def __repr__(self):
         return "Octopus"
 
-    def get_instant_points(self):
-        pass
-
     def get_eog_points(self):
         pass
 
@@ -316,15 +325,20 @@ class FishCard:
     def __repr__(self):
         return "Fish"
 
-    def get_instant_points(self):
-        pass
+    def get_instant_points(self, p_totems, sel, x):
+        element_penalty = 0
+        for y in range(len(p_totems[x])):
+            if p_totems[x][y].element != 'Water' or ChameleonCard:
+                element_penalty += 1
+        points = 5 - element_penalty
+        return points
 
     def get_eog_points(self):
         pass
 
 
 class JellyfishCard:
-    """Jellyfish (water, instant) - one point, plus one point for every totem block above it"""
+    """Jellyfish (water, instant) - one point, plus one point for every empty space above it"""
 
     def __init__(self):
         self.element = 'Water'
@@ -333,8 +347,10 @@ class JellyfishCard:
     def __repr__(self):
         return "Jellyfish"
 
-    def get_instant_points(self):
-        pass
+    def get_instant_points(self, p_totems, sel, x):
+        space_bonus = 3 - len((p_totems[x]))
+        points = 1 + space_bonus
+        return points
 
     def get_eog_points(self):
         pass

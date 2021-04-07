@@ -340,9 +340,9 @@ def menu_screen():
         text_click = font_a.render("Click to Play!", 1, (0, 0, 0))
         rules = "The rules are simple - make totems that bring you the most points! Take turns picking cards from the "\
                 "central draft. Remember you have to build them from the bottom up. " \
-                "Instant cards give you points instantly, passives have modifiers, and EoG (End " \
-                "of Game) are counted up at the end of the game - when the draft runs dry. You should also check your" \
-                " opponent's board, you might snatch a card they wanted. "
+                "Instant cards give you points instantly and EoG (End of Game) are counted up at the end of the game" \
+                " - when the draft runs dry. You should also check your opponent's board, " \
+                "you might snatch a card they wanted. "
 
         word_wrap(menu, rules, font, BLACK)
         window.blit(menu, (40, 400))

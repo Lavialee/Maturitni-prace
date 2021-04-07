@@ -55,8 +55,9 @@ def threaded_client(conn, p, gameId):
     try:
         del games[gameId]
         print("Closing Game", gameId)
-    except:
-        pass
+    except Exception as e:
+        raise e
+
     idCount -= 1
     conn.close()
 
