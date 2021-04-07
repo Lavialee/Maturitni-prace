@@ -158,12 +158,12 @@ class ViewBoard:
             y = MARGINS
             image = get_image(str(state.draft[pos]), DRAFT_CARD_SIZE, DRAFT_CARD_SIZE)
             window.blit(image, (x, y))
-
-        for pos in range(1):
-            x = 5 * (DRAFT_CARD_SIZE + PADDING) + MARGINS
-            y = MARGINS
-            image = get_image('deck', DRAFT_CARD_SIZE, DRAFT_CARD_SIZE)
-            window.blit(image, (x, y))
+        if state.deck:
+            for pos in range(1):
+                x = 5 * (DRAFT_CARD_SIZE + PADDING) + MARGINS
+                y = MARGINS
+                image = get_image('deck', DRAFT_CARD_SIZE, DRAFT_CARD_SIZE)
+                window.blit(image, (x, y))
 
         if self.selected_draft is not None:
             place = (self.selected_draft * (DRAFT_CARD_SIZE + PADDING) + MARGINS)
@@ -275,6 +275,7 @@ def main():
         clock.tick(60)
         try:
             state = n.send("get")
+            assert state is not None
         except:
             run = False
             print("Couldn't get game")

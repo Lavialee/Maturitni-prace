@@ -13,7 +13,6 @@ class Player:
 
 
 class Game:
-    """stará se o vykreslení základní desky a možných míst kam """
 
     def __init__(self, id):
         self.p1 = Player()
@@ -34,15 +33,18 @@ class Game:
         if sel < 5:
             self.p[int(player)].totems[x].append(self.draft.pop(sel))
             self.draft.append(self.deck.pop(0))
-
         else:
-            self.evaluate_move(sel, x, player)
             self.p[int(player)].totems[x].append(self.deck.pop())
 
     def evaluate_move(self, player, sel, x):
-        card = self.draft[sel]
+        if sel < 5:
+            card = self.draft[sel]
+        else:
+            card = self.deck.pop()
+        p_totems = self.p[int(player)].totems
+
         if card.type == 'instant':
-            points = card.get_instant_points(player, sel, x)
+            points = card.get_instant_points(p_totems, sel, x)
             self.p[int(player)].points = self.p[int(player)].points + points
             print(player, self.p[int(player)].points)
         print(card.type)
@@ -119,8 +121,10 @@ class EagleCard:
     def __repr__(self):
         return "Eagle"
 
-    def get_instant_points(self, Player, sel, x):
-        points = 1
+    def get_instant_points(self, p_totems, sel, x):
+        print(p_totems)
+        points = 1 + (2* p_totems[x])
+        print(p_totems)
         return points
 
 
