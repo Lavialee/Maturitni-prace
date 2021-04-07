@@ -1,7 +1,10 @@
 import pygame
+import pygame.freetype
 from network import Network
+from card_classes import *
 
 pygame.font.init()
+pygame.freetype.init()
 
 WIDTH = 1280
 HEIGHT = 960
@@ -21,6 +24,7 @@ COLS = 6
 
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Totem")
+font = pygame.freetype.SysFont('Arial', 20)
 
 
 def get_image(type, width, height):
@@ -30,31 +34,72 @@ def get_image(type, width, height):
     return image
 
 
+def get_text(type):
+    text = eval(f"{type}Card()")
+    return text.__doc__
+
+
+def your_turn(state, player):
+    if state.current_player == player:
+        return True
+    else:
+        return False
+
+
+def get_opponent(player):
+    if player == 1:
+        return 2
+    else:
+        return 1
+
+
+def word_wrap(surf, text, font, color=(0, 0, 0)):
+    font.origin = True
+    words = text.split(' ')
+    width, height = surf.get_size()
+    line_spacing = font.get_sized_height() + 2
+    x, y = 0, line_spacing
+    space = font.get_rect(' ')
+    for word in words:
+        bounds = font.get_rect(word)
+        if x + bounds.width + bounds.x >= width:
+            x, y = 0, y + line_spacing
+        if x + bounds.width + bounds.x >= width:
+            raise ValueError("word too wide for the surface")
+        if y + bounds.height - bounds.y >= height:
+            raise ValueError("text to long for the surface")
+        font.render_to(surf, (x, y), None, color)
+        x += bounds.width + space.width
+    return x, y
+
+
 class SelectBoard:
     """stará se o interaktivitu karet"""
 
-    def __init__(self):
-        self.selected_card = None
-
-    def check_collision_board(self, state, mx, my):
+    def check_collision_board(self, board, mx, my):
         for col in range(COLS):
             x = col * (CARD_SIZE + PADDING) + MARGINS
             for row in range(ROWS):
                 y = row * (CARD_SIZE + PADDING) + BOARD_MARGIN
                 rect = pygame.draw.rect(window, LIGHT_GREY, (x, y, CARD_SIZE, CARD_SIZE))
                 if rect.collidepoint(mx, my):
-                    pos = col, row
-                    state.selected_board = pos
+                    board.selected_board = col, row
 
-    def check_collision_draft(self, state, mx, my):
+    def check_collision_draft(self, state, board, mx, my):
         for pos in range(len(state.draft)):
             x = pos * (DRAFT_CARD_SIZE + PADDING) + MARGINS
             y = MARGINS
             rect = pygame.draw.rect(window, LIGHT_GREY, (x, y, DRAFT_CARD_SIZE, DRAFT_CARD_SIZE))
             if rect.collidepoint(mx, my):
-                state.selected_draft = pos
+                board.selected_draft = pos
 
-    def check_hovered(self, state, mx, my):
+        x = 5 * (DRAFT_CARD_SIZE + PADDING) + MARGINS
+        y = MARGINS
+        rect = pygame.draw.rect(window, LIGHT_GREY, (x, y, DRAFT_CARD_SIZE, DRAFT_CARD_SIZE))
+        if rect.collidepoint(mx, my):
+            board.selected_draft = 5
+
+    def check_hovered(self, state, board, mx, my):
         for col in range(COLS):
             x = col * (CARD_SIZE + PADDING) + MARGINS
             for row in range(ROWS):
@@ -62,59 +107,78 @@ class SelectBoard:
                 rect = pygame.draw.rect(window, WHITE, (x, y, CARD_SIZE, CARD_SIZE))
                 if rect.collidepoint(mx, my):
                     pos = col, row
-                    state.hovered = pos
-        for pos in range(len(state.draft)):
+                    board.hovered = pos
+
+        for pos in range(5):
             x = pos * (DRAFT_CARD_SIZE + PADDING) + MARGINS
             y = MARGINS
             rect = pygame.draw.rect(window, WHITE, (x, y, DRAFT_CARD_SIZE, DRAFT_CARD_SIZE))
             if rect.collidepoint(mx, my):
-                state.hovered = pos
+                board.hovered = pos
 
-    def buttons(self, state, mx, my):
-        butt = pygame.draw.rect(window, BLACK, ( 1030, 780, 210, 60))
-        if butt.collidepoint(mx, my):
-            state.button_pressed = True
+    def end_of_turn_btn(self, board, mx, my):
+        btn = pygame.draw.rect(window, BLACK, (1030, 780, 210, 60))
+        if btn.collidepoint(mx, my) and board.selected_draft is not None and board.selected_board is not None:
+            board.end_turn_pressed = True
+
+    def view_board_btn(self, board, mx, my):
+        btn = pygame.draw.rect(window, BLACK, (1030, 860, 210, 60))
+        if btn.collidepoint(mx, my):
+            if board.viewed_board == board.player:
+                board.viewed_board = board.opponent
+            else:
+                board.viewed_board = board.player
 
 
 class ViewBoard:
-    """vykresluje vše"""
+    """vykresluje stav hry"""
 
-    def __init__(self, state):
-        self.valid = state.get_valid_placements()
+    def __init__(self, player, opponent):
+        self.end_turn_pressed = False
+        self.selected_draft = None
+        self.selected_board = None
+        self.hovered = None
+        self.player = player
+        self.opponent = opponent
+        self.viewed_board = player
 
     def update_draft(self, state):
         """vykresluje draft"""
-
         for pos in range(len(state.draft)):
             x = pos * (DRAFT_CARD_SIZE + PADDING) + MARGINS
             y = MARGINS
             image = get_image(str(state.draft[pos]), DRAFT_CARD_SIZE, DRAFT_CARD_SIZE)
             window.blit(image, (x, y))
 
-        if state.selected_draft is not None:
-            place = (state.selected_draft * (DRAFT_CARD_SIZE + PADDING) + MARGINS)
+        for pos in range(1):
+            x = 5 * (DRAFT_CARD_SIZE + PADDING) + MARGINS
+            y = MARGINS
+            image = get_image('deck', DRAFT_CARD_SIZE, DRAFT_CARD_SIZE)
+            window.blit(image, (x, y))
+
+        if self.selected_draft is not None:
+            place = (self.selected_draft * (DRAFT_CARD_SIZE + PADDING) + MARGINS)
             pygame.draw.rect(window, BLACK, (place, MARGINS, DRAFT_CARD_SIZE, DRAFT_CARD_SIZE), 3, border_radius=1)
 
     def update_board(self, state):
         """vykresluje board"""
-
+        self.your_turn = your_turn(state, self.player)
         for col in range(COLS):
             x = col * (CARD_SIZE + PADDING) + MARGINS
-            if len(state.current_player.totems[col]) > 0:
-                for row in range(len(state.current_player.totems[col])):
+            if len(eval(f"state.p{self.viewed_board}.totems[col]")) > 0:
+                for row in range(len(eval(f"state.p{self.viewed_board}.totems[col]"))):
                     y = HEIGHT - MARGINS - ((row + 1) * CARD_SIZE) - (row * PADDING)
-                    image = get_image(str(state.current_player.totems[col][row]), CARD_SIZE, CARD_SIZE)
+                    image = get_image(str(eval(f"state.p{self.viewed_board}.totems[col][row]")), CARD_SIZE, CARD_SIZE)
                     window.blit(image, (x, y))
 
-        for pos in range(len(state.get_valid_placements())):
-            self.valid = state.get_valid_placements()
-            col, row = self.valid[pos]
+        for pos in range(len(self.get_valid_placements(state))):
+            col, row = self.get_valid_placements(state)[pos]
             a = col * (CARD_SIZE + PADDING) + MARGINS
             b = row * (CARD_SIZE + PADDING) + BOARD_MARGIN
             pygame.draw.rect(window, DARK_GREY, (a, b, CARD_SIZE, CARD_SIZE), 5, border_radius=1)
 
-        if state.selected_board is not None:
-            c, d = state.selected_board
+        if self.selected_board is not None:
+            c, d = self.selected_board
             if [c, d] in self.valid:
                 x = c * (CARD_SIZE + PADDING) + MARGINS
                 y = d * (CARD_SIZE + PADDING) + BOARD_MARGIN
@@ -124,28 +188,71 @@ class ViewBoard:
 
     def sidebar(self, state):
         """vykresluje info o kartách"""
+        font_a = pygame.font.SysFont("Arial", 40)
+        points = 'points on this board: ' + str((eval(f"state.p{self.viewed_board}.points")))
+        point_text = font_a.render(points, 1, (0, 0, 0))
 
-        pygame.draw.rect(window, LIGHT_GREY, (1030, BOARD_MARGIN, 210, 470))
+        window.blit(point_text, (25 ,5))
 
-        if state.hovered is not None and len(str(state.hovered)) <= 2:  # draft hovered
-            pos = state.hovered
+        sidebar = pygame.Surface((210, 470))
+        sidebar.fill(WHITE)
+
+        if self.hovered is not None and len(str(self.hovered)) <= 2:  # draft hovered
+            pos = self.hovered
             image = get_image(str(state.draft[pos]), 210, 210)
+            text = get_text(str(state.draft[pos]))
+            word_wrap(sidebar, text, font, BLACK)
+            window.blit(sidebar, (1030, BOARD_MARGIN + 200))
             window.blit(image, (1030, BOARD_MARGIN))
 
-        elif state.hovered is not None:  # board hovered
-            col, row = state.hovered
+
+        elif self.hovered is not None:  # board hovered
+            col, row = self.hovered
             row = 3 - row
-            if row <= (len(state.current_player.totems[col]) - 1):
-                image = get_image(str(state.current_player.totems[col][row]), 210, 210)
+            if row <= (len(eval(f"state.p{self.viewed_board}.totems[col]")) - 1):
+                image = get_image(str(eval(f"state.p{self.viewed_board}.totems[col][row]")), 210, 210)
+                text = get_text(str(eval(f"state.p{self.viewed_board}.totems[col][row]")))
+                word_wrap(sidebar, text, font, BLACK)
+                window.blit(sidebar, (1030, BOARD_MARGIN + 200))
                 window.blit(image, (1030, BOARD_MARGIN))
 
-    def buttons(self, state):
+    def buttons(self):
         """vykresluje tlačítka"""
-        image = pygame.image.load('assets/move.png')
+        if self.your_turn:
+            image = pygame.image.load('assets/move.png')
+        else:
+            image = pygame.image.load('assets/cantMove.png')
         window.blit(image, (1030, 780))
-        if state.button_pressed:
-            state.turn_end()
-            state.button_pressed = False
+
+        if self.viewed_board == self.player:
+            image = pygame.image.load('assets/opponent_board.png')
+
+        else:
+
+            image = pygame.image.load('assets/your_board.png')
+        window.blit(image, (1030, 860))
+
+    def get_valid_placements(self, state):
+        """zjistí souřadnice, kam je možné dát do totemu karty"""
+
+        self.valid = []
+        for col in range(COLS):
+            if len(eval(f"state.p{self.viewed_board}.totems[col]")) < 4:
+                row = 3 - (len(eval(f"state.p{self.viewed_board}.totems[col]")))
+                self.valid.append([col, row])
+            else:
+                pass
+
+        return self.valid
+
+    def turn_end(self, state):
+
+        if self.selected_board is not None:
+            if list(self.selected_board) in self.valid and self.end_turn_pressed:
+                self.end_turn_pressed = False
+                self.valid = self.get_valid_placements(state)
+                return True
+
 
 
 def main():
@@ -153,8 +260,10 @@ def main():
     run = True
     clock = pygame.time.Clock()
     n = Network()
-    player = int(n.getP())
+    player = int(n.getP()) + 1
+    opponent = get_opponent(player)
     select = SelectBoard()
+    board = ViewBoard(player, opponent)
 
     while run:
         clock.tick(60)
@@ -164,27 +273,79 @@ def main():
             run = False
             print("Couldn't get game")
             break
-        board = ViewBoard(state)
+        if board.turn_end(state):
+            print('sent')
+            x, y = board.selected_board
+            n.send(str(board.selected_draft) + ',' + str(x) + ',' + str(y))
+            board.selected_board = None
+            board.selected_draft = None
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+                pygame.quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
+
                 mx, my = pygame.mouse.get_pos()
-                select.check_collision_board(state, mx, my)
-                select.check_collision_draft(state, mx, my)
-                select.buttons(state, mx, my)
+                select.end_of_turn_btn(board, mx, my)
+                select.view_board_btn(board, mx, my)
+                if your_turn(state, player) and board.viewed_board == player:
+                    select.check_collision_board(board, mx, my)
+                    select.check_collision_draft(state, board, mx, my)
 
             if event.type == pygame.MOUSEMOTION:
                 mx, my = pygame.mouse.get_pos()
-                select.check_hovered(state, mx, my)
+                select.check_hovered(state, board, mx, my)
 
+        if not state.ready:
+            window.fill((230, 225, 161))
+            font = pygame.font.SysFont("Arial", 60)
+            text = font.render("Waitning", 1, (0, 0, 0))
+            window.blit(text, (100, 200))
+            pygame.display.update()
+
+        else:
             window.fill(WHITE)
+            board.sidebar(state)
             board.update_draft(state)
             board.update_board(state)
             board.sidebar(state)
-            board.buttons(state)
+            board.buttons()
             pygame.display.flip()
 
 
-main()
+def menu_screen():
+    run = True
+    clock = pygame.time.Clock()
+
+    while run:
+        clock.tick(60)
+        window.fill((230, 225, 161))
+
+        menu = pygame.Surface((880, 880))
+        menu.fill((230, 225, 161))
+        font_a = pygame.font.SysFont("Arial", 60)
+        text_click = font_a.render("Click to Play!", 1, (0, 0, 0))
+        rules = "The rules are simple - make totems that bring you the most points! Take turns picking cards from the " \
+                "central draft. Remember you have to build them from the bottom up. " \
+                "Instant cards give you points instantly, passives have modifiers, and EoG (End " \
+                "of Game) are counted up at the end of the game - when the draft runs dry. You should also check your" \
+                " opponent's board, you might snatch a card they wanted. "
+
+        word_wrap(menu, rules, font, BLACK)
+        window.blit(menu, (40, 400))
+        window.blit(text_click, (40, 40))
+
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                run = False
+
+    main()
+while True:
+    menu_screen()

@@ -1,7 +1,7 @@
 import socket
 from _thread import *
 import pickle
-from game import State
+from game import Game
 
 server = "192.168.56.1"
 port = 5555
@@ -36,12 +36,16 @@ def threaded_client(conn, p, gameId):
                 if not data:
                     break
                 else:
-                    if data == "xy":
-                        pass
+                    conn.sendall(pickle.dumps(game))
+                    if data == "reset":
+                        game.reset()
+                        conn.sendall(pickle.dumps(game))
+
                     elif data != "get":
                         game.play(p, data)
+                        conn.sendall(pickle.dumps(game))
 
-                    conn.sendall(pickle.dumps(game))
+
             else:
                 break
         except:
@@ -65,7 +69,7 @@ while True:
     p = 0
     gameId = (idCount - 1) // 2
     if idCount % 2 == 1:
-        games[gameId] = State(gameId)
+        games[gameId] = Game(gameId)
         print("Creating a new game...")
     else:
         games[gameId].ready = True

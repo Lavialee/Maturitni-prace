@@ -1,7 +1,11 @@
 # CARD CLASSES #
 # AIR #
 class EagleCard:
-    """Orel (instant) - jeden bod instantní, plus 2 body za každý blok pod tímto"""
+    """Eagle (air, instant) - gain one point instantly, plus 2 points for each totem block under it"""
+
+    def __init__(self):
+        self.element = 'Air'
+        self.type = 'instant'
 
     def __repr__(self):
         return "Eagle"
@@ -11,7 +15,11 @@ class EagleCard:
 
 
 class CraneCard:
-    """Jeřáb (EoG) - jeden bod plus dva body za jeřáby diagonálně"""
+    """Crane (air, EoG) - gain one point, and additional 2 points for every crane in a diagonal from it"""
+
+    def __init__(self):
+        self.element = 'Air'
+        self.type = 'EoG'
 
     def __repr__(self):
         return "Crane"
@@ -24,7 +32,11 @@ class CraneCard:
 
 
 class OwlCard:
-    """Sova (passive) - všechny karty s instant efektem dávají +2 body"""
+    """Owl (air, passive) - all instant cards placed in it's totem after, give aditional 3 points"""
+
+    def __init__(self):
+        self.element = 'Air'
+        self.type = 'passive'
 
     def __repr__(self):
         return "Owl"
@@ -37,7 +49,11 @@ class OwlCard:
 
 
 class HummingbirdCard:
-    """Kolibřík (passive) - je-li v jeho totemu <= než 2 bloky, EoG efekty jsou dvojnásobné"""
+    """Hummingbird (air, passive) - if there's less than three totem blocks in it's totem, EoG effects are double"""
+
+    def __init__(self):
+        self.element = 'Air'
+        self.type = 'passive'
 
     def __repr__(self):
         return "Hummingbird"
@@ -50,7 +66,11 @@ class HummingbirdCard:
 
 
 class MagpieCard:
-    """Straka (instant) - můžeš prohodit tenhle a jiný totem, dostaneš + 1 bod za každé 2 bloky (zaokrouhleno dolů)"""
+    """Magpie (air, instant) - get 1 point, and 1 additional point for all air types on your board"""
+
+    def __init__(self):
+        self.element = 'Air'
+        self.type = 'instant'
 
     def __repr__(self):
         return "Magpie"
@@ -64,7 +84,11 @@ class MagpieCard:
 
 # EARTH #
 class BearCard:
-    """Medvěd (passive) - je-li v totemu >=2, instant efekty jsou o 1,5 rounded down"""
+    """Bear (earth, passive) - if his totem has more than 2 blocks, instant effects get a 1,5 multiplyer"""
+
+    def __init__(self):
+        self.element = 'Earth'
+        self.type = 'passive'
 
     def __repr__(self):
         return "Bear"
@@ -77,7 +101,11 @@ class BearCard:
 
 
 class WolfCard:
-    """Vlk (instant) -  +2 body za každého vlka"""
+    """Vlk (earth, instant) -  get points: amount of wolves on board x2"""
+
+    def __init__(self):
+        self.element = 'Earth'
+        self.type = 'instant'
 
     def __repr__(self):
         return "Wolf"
@@ -90,7 +118,11 @@ class WolfCard:
 
 
 class FoxCard:
-    """Liška (EoG) - pokud je v totemu alespoň dvakrát +4 body, jinak -3"""
+    """Liška (earth, EoG) - if it's in your totem at least twice +4 points (for each), otherwise -3"""
+
+    def __init__(self):
+        self.element = 'Earth'
+        self.type = 'EoG'
 
     def __repr__(self):
         return "Fox"
@@ -103,7 +135,11 @@ class FoxCard:
 
 
 class LynxCard:
-    """Rys (Instant) - za prvního u hráče 6b, za každého dalšího -2 body"""
+    """Lynx (earth, EoG) - get half a point for any mice, fish, foxes and magpies in a one block radius of it"""
+
+    def __init__(self):
+        self.element = 'Earth'
+        self.type = 'EoG'
 
     def __repr__(self):
         return "Lynx"
@@ -116,7 +152,11 @@ class LynxCard:
 
 
 class MouseCard:
-    """Myš (EoG) - jeden bod, pokud je v okolí další myš +1 bod za každou"""
+    """Mouse (earth, EoG) - one point, +1 point for any mice in a one block radius of it"""
+
+    def __init__(self):
+        self.element = 'Earth'
+        self.type = 'EoG'
 
     def __repr__(self):
         return "Mouse"
@@ -130,7 +170,11 @@ class MouseCard:
 
 # FIRE #
 class SnakeCard:
-    """Had (instant) - dva body, může se dát kamkoliv do totemu"""
+    """Snake (fire, instant) - two points, additional one point for any mice in its totem"""
+
+    def __init__(self):
+        self.element = 'Fire'
+        self.type = 'instant'
 
     def __repr__(self):
         return "Snake"
@@ -143,7 +187,11 @@ class SnakeCard:
 
 
 class ChameleonCard:
-    """Chameleon (instant) - jeden bod, zároveň jako "žolík", může nahradit jakékoliv zvíře """
+    """Chameleon (fire, instant) - one point, is counted as an appropriate animal in further instant effects"""
+
+    def __init__(self):
+        self.element = 'Fire'
+        self.type = 'instant'
 
     def __repr__(self):
         return "Chameleon"
@@ -156,7 +204,11 @@ class ChameleonCard:
 
 
 class CrocodileCard:
-    """Krokodýl (instant) - jeden bod, +1 bod za vodní zvířata v totemu """
+    """Crocodile (fire, instant) - one point, add one point for every water animal in its row"""
+
+    def __init__(self):
+        self.element = 'Fire'
+        self.type = 'instant'
 
     def __repr__(self):
         return "Crocodile"
@@ -169,7 +221,11 @@ class CrocodileCard:
 
 
 class LizardCard:
-    """Ještěrka (instant) - jeden bod, +1 bod za každé další ještěrky ve stejném řádku a sloupci"""
+    """Lizard (fire, instant) - one point, plus one point for any other lizards in its totem or row"""
+
+    def __init__(self):
+        self.element = 'Fire'
+        self.type = 'instant'
 
     def __repr__(self):
         return "Lizard"
@@ -182,7 +238,11 @@ class LizardCard:
 
 
 class GecoCard:
-    """Gekon (EoG) - jeden bod za každý živel v totemu (max tedy 4 body)"""
+    """Geco (fire, EoG) - one point for every represented element in its totem, six if all are represented"""
+
+    def __init__(self):
+        self.element = 'Fire'
+        self.type = 'EoG'
 
     def __repr__(self):
         return "Geco"
@@ -196,7 +256,11 @@ class GecoCard:
 
 # WATER #
 class SharkCard:
-    """Žralok (EoG) - jeden bod, +1 bod za každý blok nad tímto"""
+    """Shark (water, EoG) - one point, plus one point for every totem block under it"""
+
+    def __init__(self):
+        self.element = 'Water'
+        self.type = 'EoG'
 
     def __repr__(self):
         return "Shark"
@@ -209,7 +273,11 @@ class SharkCard:
 
 
 class CrabCard:
-    """Krab () -  jeden bod, +2 body za kraby ve stejném řádku """
+    """Crab (water, EoG) - one point, additional 2 points for any crab in the same row"""
+
+    def __init__(self):
+        self.element = 'Water'
+        self.type = 'EoG'
 
     def __repr__(self):
         return "Crab"
@@ -222,7 +290,11 @@ class CrabCard:
 
 
 class OctopusCard:
-    """Chobotnice (EoG) - zkopíruj jakýkoliv EoG efekt z jiného bloku totemu"""
+    """Octopus (water, EoG) -  copies an EoG card from its totem which yields the most points"""
+
+    def __init__(self):
+        self.element = 'Water'
+        self.type = 'EoG'
 
     def __repr__(self):
         return "Octopus"
@@ -235,7 +307,11 @@ class OctopusCard:
 
 
 class FishCard:
-    """Ryba (instant) - 5 bodů, ale -2 za každý jiný živel v totemu"""
+    """Fish (water, instant) - five points, but two deducted for any other element in this totem"""
+
+    def __init__(self):
+        self.element = 'Water'
+        self.type = 'instant'
 
     def __repr__(self):
         return "Fish"
@@ -248,7 +324,11 @@ class FishCard:
 
 
 class JellyfishCard:
-    """Medúza (instant) - prohoď 2 bloky, jsou-li stejný živel +2 body"""
+    """Jellyfish (water, instant) - one point, plus one point for every totem block above it"""
+
+    def __init__(self):
+        self.element = 'Water'
+        self.type = 'instant'
 
     def __repr__(self):
         return "Jellyfish"
