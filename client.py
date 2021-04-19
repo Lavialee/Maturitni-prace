@@ -1,6 +1,7 @@
 import pygame
 import pygame.freetype
 from network import Network
+from card_classes import *
 
 pygame.init()
 pygame.font.init()
