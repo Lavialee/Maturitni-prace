@@ -10,7 +10,7 @@ class EagleCard:
     def __repr__(self):
         return "Eagle"
 
-    def get_instant_points(self, p_totems, sel, x):
+    def get_instant_points(self, p_totems, x, y):
         points = 1 + (2 * len(p_totems[x]))
         return points
 
@@ -39,7 +39,7 @@ class OwlCard:
     def __repr__(self):
         return "Owl"
 
-    def get_instant_points(self, p_totems, sel, x):
+    def get_instant_points(self, p_totems, x, y):
         prey_bonus = 0
         for prey in range(len(p_totems[x])):
             if isinstance(p_totems[x][prey], (MouseCard, SnakeCard, LizardCard, ChameleonCard)):
@@ -58,7 +58,7 @@ class HummingbirdCard:
     def __repr__(self):
         return "Hummingbird"
 
-    def get_instant_points(self, p_totems, sel, x):
+    def get_instant_points(self, p_totems, x, y):
         if len(p_totems[x]) == 1:
             points = 4
         else:
@@ -76,10 +76,10 @@ class MagpieCard:
     def __repr__(self):
         return "Magpie"
 
-    def get_instant_points(self, p_totems, sel, x):
+    def get_instant_points(self, p_totems, x, y):
         air_bonus = 0
         for col in range(len(p_totems)):
-            for row in range(len(p_totems[x])):
+            for row in range(len(p_totems[col])):
                 try:
                     if p_totems[col][row].element == 'Air' or isinstance(p_totems[col][row], ChameleonCard):
                         air_bonus += 1
@@ -118,11 +118,11 @@ class WolfCard:
     def __repr__(self):
         return "Wolf"
 
-    def get_instant_points(self, p_totems, sel, x):
+    def get_instant_points(self, p_totems, x, y):
         pack = 0
 
-        for col in p_totems:
-            for row in len(p_totems[col]):
+        for col in range(len(p_totems)):
+            for row in range(len(p_totems[col])):
                 try:
                     if isinstance(p_totems[col][row], (WolfCard, ChameleonCard)):
                         pack += 1
@@ -189,7 +189,7 @@ class SnakeCard:
     def __repr__(self):
         return "Snake"
 
-    def get_instant_points(self, p_totems, sel, x):
+    def get_instant_points(self, p_totems, x, y):
         prey_bonus = 0
         for prey in range(len(p_totems[x])):
             if isinstance(p_totems[x][prey], (MouseCard, ChameleonCard)):
@@ -208,7 +208,7 @@ class ChameleonCard:
     def __repr__(self):
         return "Chameleon"
 
-    def get_instant_points(self, p_totems, sel, x):
+    def get_instant_points(self, p_totems, x, y):
         points = 1
         return points
 
@@ -226,14 +226,16 @@ class CrocodileCard:
     def __repr__(self):
         return "Crocodile"
 
-    def get_instant_points(self, p_totems, sel, x):
+    def get_instant_points(self, p_totems, x, y):
         water_bonus = 0
         for water in range(len(p_totems)):
             try:
-                if p_totems[water][x].element == 'Water':
+                if p_totems[water][y].element == 'Water':
                     water_bonus += 2
+
             except IndexError:
                 pass
+
         points = 1 + water_bonus
         return points
 
@@ -251,7 +253,7 @@ class LizardCard:
     def __repr__(self):
         return "Lizard"
 
-    def get_instant_points(self, p_totems, sel, x):
+    def get_instant_points(self, p_totems, x, y):
         lizard_bonus = 0
         for col in range(len(p_totems)):
             try:
@@ -340,11 +342,11 @@ class FishCard:
     def __repr__(self):
         return "Fish"
 
-    def get_instant_points(self, p_totems, sel, x):
+    def get_instant_points(self, p_totems, x, y):
         element_penalty = 0
         for y in range(len(p_totems[x])):
             if p_totems[x][y].element != 'Water' or isinstance(p_totems[x][y], ChameleonCard):
-                element_penalty += 1
+                element_penalty += 2
         points = 5 - element_penalty
         return points
 
@@ -362,7 +364,7 @@ class JellyfishCard:
     def __repr__(self):
         return "Jellyfish"
 
-    def get_instant_points(self, p_totems, sel, x):
+    def get_instant_points(self, p_totems, x, y):
         space_bonus = 3 - len((p_totems[x]))
         points = 1 + space_bonus
         return points

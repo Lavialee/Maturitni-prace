@@ -2,7 +2,6 @@ import random
 import numpy as np
 from card_classes import *
 
-
 ROWS = 4
 COLS = 6
 
@@ -30,16 +29,18 @@ class Game:
     def play(self, player, move):
         self.current_player = 2 - player
         sel, x, y = move.split(",")
+        print(sel, x, y)
         x = int(x)
+        y = 3 - int(y)
         sel = int(sel)
-        self.evaluate_move(player, sel, x)
+        self.evaluate_move(player, sel, x, y)
         if sel < 5:
             self.p[int(player)].totems[x].append(self.draft.pop(sel))
             self.draft.append(self.deck.pop(0))
         else:
             self.p[int(player)].totems[x].append(self.deck.pop())
 
-    def evaluate_move(self, player, sel, x):
+    def evaluate_move(self, player, sel, x, y):
         if sel < 5:
             card = self.draft[sel]
         else:
@@ -47,10 +48,10 @@ class Game:
         p_totems = self.p[int(player)].totems
 
         if card.type == 'instant':
-            instant_points = card.get_instant_points(p_totems, sel, x)
+            instant_points = card.get_instant_points(p_totems, x, y)
             points = instant_points
             self.p[int(player)].points += points
-            print(player, self.p[int(player)].points)
+            print('player:', player, "instant points:", self.p[int(player)].points)
 
     def evaluate_final(self, player, sel, x):
         pass
@@ -67,14 +68,12 @@ class Game:
 
     def deck_first_deal(self):
         draft_deck = []
-        print('first')
         a = np.array(
             [EagleCard(), CraneCard(), OwlCard(), HummingbirdCard(), MagpieCard(), BearCard(), FoxCard(),
-             LynxCard(), MouseCard(), SnakeCard(), ChameleonCard(), CrocodileCard(), LizardCard(), GecoCard(),
-             SharkCard(), CrabCard(), OctopusCard(), FishCard(), JellyfishCard()])  # Všechny typy karet
+             LynxCard(), WolfCard(), MouseCard(), SnakeCard(), ChameleonCard(), CrocodileCard(), LizardCard(),
+             GecoCard(), SharkCard(), CrabCard(), OctopusCard(), FishCard(), JellyfishCard()])  # All card types
 
-        s = np.array([4] * 20)  # kolik má odpovídající typ mít počet v arrayi
-
+        s = np.array([4] * len(a))
         deck = np.repeat(a, s)
 
         random.shuffle(deck)
@@ -86,7 +85,7 @@ class Game:
         return draft_deck
 
     def first_draft(self):
-        """appenduje prvních pět karet do draftu"""
+        """Appends first five cards to draft"""
 
         draft_row = []
         for x in range(5):

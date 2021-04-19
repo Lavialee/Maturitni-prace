@@ -1,12 +1,10 @@
 import pygame
 import pygame.freetype
 from network import Network
-from card_classes import *
 
 pygame.init()
 pygame.font.init()
 pygame.freetype.init()
-
 
 WIDTH = 1280
 HEIGHT = 960
@@ -83,7 +81,7 @@ def word_wrap(surf, text, font, color=(0, 0, 0)):
 
 
 class SelectBoard:
-    """stará se o interaktivitu karet"""
+    """card interactivity"""
 
     def check_collision_board(self, board, mx, my):
         for col in range(COLS):
@@ -197,7 +195,7 @@ class ViewBoard:
 
     def sidebars(self, state):
         """draws information about the cards and points"""
-        font_a = pygame.font.SysFont("Arial", 40)
+        font_a = pygame.font.SysFont("Arial", 30)
         points = 'points on selected board: ' + str((eval(f"state.p{self.viewed_board}.points")))
         point_text = font_a.render(points, 1, (0, 0, 0))
         window.blit(point_text, (25, 5))
@@ -209,7 +207,7 @@ class ViewBoard:
             image = get_image(str(state.draft[pos]), 210, 210)
             text = get_text(str(state.draft[pos]))
             word_wrap(sidebar, text, font, BLACK)
-            window.blit(sidebar, (1030, BOARD_MARGIN + 200))
+            window.blit(sidebar, (1030, BOARD_MARGIN + 220))
             window.blit(image, (1030, BOARD_MARGIN))
 
 
@@ -224,7 +222,7 @@ class ViewBoard:
                 window.blit(image, (1030, BOARD_MARGIN))
 
     def buttons(self):
-        """vykresluje tlačítka"""
+        """draws buttons"""
         if self.your_turn:
             image = pygame.image.load('assets/move.png')
         else:
@@ -240,7 +238,7 @@ class ViewBoard:
         window.blit(image, (1030, 860))
 
     def get_valid_placements(self, state):
-        """zjistí souřadnice, kam je možné dát do totemu karty"""
+        """find valid coordinates for placing"""
 
         self.valid = []
         for col in range(COLS):
@@ -338,7 +336,7 @@ def menu_screen():
         menu.fill((230, 225, 161))
         font_a = pygame.font.SysFont("Arial", 60)
         text_click = font_a.render("Click to Play!", 1, (0, 0, 0))
-        rules = "The rules are simple - make totems that bring you the most points! Take turns picking cards from the "\
+        rules = "The rules are simple - make totems that bring you the most points! Take turns picking cards from the " \
                 "central draft. Remember you have to build them from the bottom up. " \
                 "Instant cards give you points instantly and EoG (End of Game) are counted up at the end of the game" \
                 " - when the draft runs dry. You should also check your opponent's board, " \
