@@ -54,6 +54,7 @@ def threaded_client(conn, p, gameId):
 
     print("Lost connection")
     try:
+        print(games)
         del games[gameId]
         print("Closing Game", gameId)
     except Exception as e:

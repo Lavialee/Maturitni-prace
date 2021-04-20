@@ -117,7 +117,7 @@ class SelectBoard:
                     pos = col, row
                     board.hovered = pos
 
-        for pos in range(5):
+        for pos in range(len(state.draft)):
             x = pos * (DRAFT_CARD_SIZE + PADDING) + MARGINS
             y = MARGINS
             rect = pygame.draw.rect(window, WHITE, (x, y, DRAFT_CARD_SIZE, DRAFT_CARD_SIZE))
@@ -152,11 +152,12 @@ class ViewBoard:
 
     def update_draft(self, state):
         """draws the draft"""
-        for pos in range(len(state.draft)):
-            x = pos * (DRAFT_CARD_SIZE + PADDING) + MARGINS
-            y = MARGINS
-            image = get_image(str(state.draft[pos]), DRAFT_CARD_SIZE, DRAFT_CARD_SIZE)
-            window.blit(image, (x, y))
+        if state.draft:
+            for pos in range(len(state.draft)):
+                x = pos * (DRAFT_CARD_SIZE + PADDING) + MARGINS
+                y = MARGINS
+                image = get_image(str(state.draft[pos]), DRAFT_CARD_SIZE, DRAFT_CARD_SIZE)
+                window.blit(image, (x, y))
         if state.deck:
             for pos in range(1):
                 x = 5 * (DRAFT_CARD_SIZE + PADDING) + MARGINS

@@ -70,7 +70,7 @@ class Game:
         draft_deck = []
         a = np.array(
             [EagleCard(), CraneCard(), OwlCard(), HummingbirdCard(), MagpieCard(), BearCard(), FoxCard(),
-             LynxCard(), WolfCard(), MouseCard(), SnakeCard(), ChameleonCard(), CrocodileCard(), LizardCard(),
+             LynxCard(), WolfCard(), MouseCard(), SnakeCard(), ChameleonCard(), CrocodileCard(), TortoiseCard(),
              GecoCard(), SharkCard(), CrabCard(), OctopusCard(), FishCard(), JellyfishCard()])  # All card types
 
         s = np.array([4] * len(a))
