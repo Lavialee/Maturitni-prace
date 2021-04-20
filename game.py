@@ -40,6 +40,10 @@ class Game:
         else:
             self.p[int(player)].totems[x].append(self.deck.pop())
 
+
+    def connected(self):
+        return self.ready
+
     def evaluate_move(self, player, sel, x, y):
         if sel < 5:
             card = self.draft[sel]

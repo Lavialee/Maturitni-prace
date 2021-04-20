@@ -6,24 +6,27 @@ from card_classes import *
 pygame.init()
 pygame.font.init()
 pygame.freetype.init()
+infoObject = pygame.display.Info()
 
-WIDTH = 1280
-HEIGHT = 960
+WIDTH_OBJECTS = infoObject.current_w - 200
 
+CARD_SIZE = WIDTH_OBJECTS//11
+DRAFT_CARD_SIZE = WIDTH_OBJECTS//8
+SIDEBAR_WIDTH = WIDTH_OBJECTS//6
+PADDING = 25
+MARGINS = 40
+BOARD_MARGIN = DRAFT_CARD_SIZE + PADDING + MARGINS
+ROWS = 4
+COLS = 6
+
+WIDTH = (DRAFT_CARD_SIZE + PADDING) * COLS + MARGINS
+HEIGHT = DRAFT_CARD_SIZE + ROWS * (PADDING + CARD_SIZE) + 2 * MARGINS
 WHITE = (255, 255, 255)
 LIGHT_GREY = (245, 245, 245)
 DARK_GREY = (210, 210, 210)
 BLACK = (0, 0, 0)
 
-CARD_SIZE = 140
-DRAFT_CARD_SIZE = 175
-PADDING = 25
-MARGINS = 40
-BOARD_MARGIN = 285
-ROWS = 4
-COLS = 6
-
-window = pygame.display.set_mode((WIDTH, HEIGHT))
+window = pygame.display.set_mode((WIDTH, HEIGHT),pygame.RESIZABLE)
 pygame.display.set_caption("Totem")
 font = pygame.freetype.SysFont('Arial', 20)
 
@@ -125,12 +128,12 @@ class SelectBoard:
                 board.hovered = pos
 
     def end_of_turn_btn(self, board, mx, my):
-        btn = pygame.draw.rect(window, BLACK, (1030, 780, 210, 60))
+        btn = pygame.draw.rect(window, BLACK, (WIDTH - SIDEBAR_WIDTH - MARGINS, 780, SIDEBAR_WIDTH, 60))
         if btn.collidepoint(mx, my) and board.selected_draft is not None and board.selected_board is not None:
             board.end_turn_pressed = True
 
     def view_board_btn(self, board, mx, my):
-        btn = pygame.draw.rect(window, BLACK, (1030, 860, 210, 60))
+        btn = pygame.draw.rect(window, BLACK, (WIDTH - SIDEBAR_WIDTH - MARGINS, 860, SIDEBAR_WIDTH, 60))
         if btn.collidepoint(mx, my):
             if board.viewed_board == board.player:
                 board.viewed_board = board.opponent
@@ -176,7 +179,7 @@ class ViewBoard:
             x = col * (CARD_SIZE + PADDING) + MARGINS
             if len(eval(f"state.p{self.viewed_board}.totems[col]")) > 0:
                 for row in range(len(eval(f"state.p{self.viewed_board}.totems[col]"))):
-                    y = HEIGHT - MARGINS - ((row + 1) * CARD_SIZE) - (row * PADDING)
+                    y = (3 - row) * (CARD_SIZE + PADDING) + BOARD_MARGIN
                     image = get_image(str(eval(f"state.p{self.viewed_board}.totems[col][row]")), CARD_SIZE, CARD_SIZE)
                     window.blit(image, (x, y))
 
@@ -201,27 +204,27 @@ class ViewBoard:
         points = 'points on selected board: ' + str((eval(f"state.p{self.viewed_board}.points")))
         point_text = font_a.render(points, 1, (0, 0, 0))
         window.blit(point_text, (25, 5))
-        sidebar = pygame.Surface((210, 470))
+        sidebar = pygame.Surface((SIDEBAR_WIDTH, 470))
         sidebar.fill(WHITE)
 
         if self.hovered is not None and len(str(self.hovered)) <= 2:
             pos = self.hovered
-            image = get_image(str(state.draft[pos]), 210, 210)
+            image = get_image(str(state.draft[pos]), SIDEBAR_WIDTH, SIDEBAR_WIDTH)
             text = get_text(str(state.draft[pos]))
             word_wrap(sidebar, text, font, BLACK)
-            window.blit(sidebar, (1030, BOARD_MARGIN + 220))
-            window.blit(image, (1030, BOARD_MARGIN))
+            window.blit(sidebar, (WIDTH - SIDEBAR_WIDTH - PADDING, BOARD_MARGIN + PADDING + SIDEBAR_WIDTH))
+            window.blit(image, (WIDTH - SIDEBAR_WIDTH - PADDING, BOARD_MARGIN))
 
 
         elif self.hovered is not None:
             col, row = self.hovered
             row = 3 - row
             if row <= (len(eval(f"state.p{self.viewed_board}.totems[col]")) - 1):
-                image = get_image(str(eval(f"state.p{self.viewed_board}.totems[col][row]")), 210, 210)
+                image = get_image(str(eval(f"state.p{self.viewed_board}.totems[col][row]")), SIDEBAR_WIDTH, SIDEBAR_WIDTH)
                 text = get_text(str(eval(f"state.p{self.viewed_board}.totems[col][row]")))
                 word_wrap(sidebar, text, font, BLACK)
-                window.blit(sidebar, (1030, BOARD_MARGIN + 200))
-                window.blit(image, (1030, BOARD_MARGIN))
+                window.blit(sidebar, (WIDTH - SIDEBAR_WIDTH - PADDING, BOARD_MARGIN + PADDING + SIDEBAR_WIDTH))
+                window.blit(image, (WIDTH - SIDEBAR_WIDTH - PADDING, BOARD_MARGIN))
 
     def buttons(self):
         """draws buttons"""
@@ -229,7 +232,7 @@ class ViewBoard:
             image = pygame.image.load('assets/move.png')
         else:
             image = pygame.image.load('assets/cantMove.png')
-        window.blit(image, (1030, 780))
+        window.blit(image, (WIDTH - SIDEBAR_WIDTH - PADDING, 780))
 
         if self.viewed_board == self.player:
             image = pygame.image.load('assets/opponent_board.png')
@@ -237,7 +240,7 @@ class ViewBoard:
         else:
 
             image = pygame.image.load('assets/your_board.png')
-        window.blit(image, (1030, 860))
+        window.blit(image, (WIDTH - SIDEBAR_WIDTH - PADDING, 860))
 
     def get_valid_placements(self, state):
         """find valid coordinates for placing"""
@@ -270,6 +273,7 @@ def main():
     opponent = get_opponent(player)
     select = SelectBoard()
     board = ViewBoard(player, opponent)
+
 
     while run:
         clock.tick(60)
