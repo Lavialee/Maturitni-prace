@@ -30,7 +30,7 @@ class CraneCard:
 
 
 class OwlCard:
-    """Owl (air, instant) - one point, aditional 2 points for every mouse, snake or lizard in this totem"""
+    """Owl (air, instant) - one point, aditional 2 points for every mouse, snake or Tortoise in this totem"""
 
     def __init__(self):
         self.element = 'Air'
@@ -42,7 +42,7 @@ class OwlCard:
     def get_instant_points(self, p_totems, x, y):
         prey_bonus = 0
         for prey in range(len(p_totems[x])):
-            if isinstance(p_totems[x][prey], (MouseCard, SnakeCard, LizardCard, ChameleonCard)):
+            if isinstance(p_totems[x][prey], (MouseCard, SnakeCard, TortoiseCard, ChameleonCard)):
                 prey_bonus += 2
         points = 1 + prey_bonus
         return points
@@ -243,32 +243,32 @@ class CrocodileCard:
         pass
 
 
-class LizardCard:
-    """Lizard (fire, instant) - one point, plus one point for any other lizards in its totem or row"""
+class TortoiseCard:
+    """Tortoise (fire, instant) - one point, plus one point for any other tortoises in its totem or row"""
 
     def __init__(self):
         self.element = 'Fire'
         self.type = 'instant'
 
     def __repr__(self):
-        return "Lizard"
+        return "Tortoise"
 
     def get_instant_points(self, p_totems, x, y):
-        lizard_bonus = 0
+        tortoise_bonus = 0
         for col in range(len(p_totems)):
             try:
-                if isinstance(p_totems[col][x], (LizardCard, ChameleonCard)):
-                    lizard_bonus += 1
+                if isinstance(p_totems[col][x], (TortoiseCard, ChameleonCard)):
+                    tortoise_bonus += 1
             except IndexError:
                 pass
 
         for row in range(len(p_totems)):
             try:
-                if isinstance(p_totems[x][row], (LizardCard, ChameleonCard)):
-                    lizard_bonus += 1
+                if isinstance(p_totems[x][row], (TortoiseCard, ChameleonCard)):
+                    tortoise_bonus += 1
             except IndexError:
                 pass
-        points = 1 + lizard_bonus
+        points = 1 + tortoise_bonus
         return points
 
     def get_eog_points(self):
