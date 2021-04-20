@@ -13,6 +13,7 @@ WIDTH_OBJECTS = infoObject.current_w - 200
 CARD_SIZE = WIDTH_OBJECTS//11
 DRAFT_CARD_SIZE = WIDTH_OBJECTS//8
 SIDEBAR_WIDTH = WIDTH_OBJECTS//6
+SIDEBAR_HEIGHT = WIDTH_OBJECTS//3
 PADDING = 25
 MARGINS = 40
 BOARD_MARGIN = DRAFT_CARD_SIZE + PADDING + MARGINS
@@ -204,7 +205,7 @@ class ViewBoard:
         points = 'points on selected board: ' + str((eval(f"state.p{self.viewed_board}.points")))
         point_text = font_a.render(points, 1, (0, 0, 0))
         window.blit(point_text, (25, 5))
-        sidebar = pygame.Surface((SIDEBAR_WIDTH, 470))
+        sidebar = pygame.Surface((SIDEBAR_WIDTH, SIDEBAR_HEIGHT))
         sidebar.fill(WHITE)
 
         if self.hovered is not None and len(str(self.hovered)) <= 2:
