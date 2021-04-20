@@ -29,7 +29,6 @@ class Game:
     def play(self, player, move):
         self.current_player = 2 - player
         sel, x, y = move.split(",")
-        print(sel, x, y)
         x = int(x)
         y = 3 - int(y)
         sel = int(sel)
@@ -55,7 +54,6 @@ class Game:
             instant_points = card.get_instant_points(p_totems, x, y)
             points = instant_points
             self.p[int(player)].points += points
-            print('player:', player, "instant points:", self.p[int(player)].points)
 
     def evaluate_final(self, player, sel, x):
         pass

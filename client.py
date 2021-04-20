@@ -10,10 +10,12 @@ infoObject = pygame.display.Info()
 
 WIDTH_OBJECTS = infoObject.current_w - 200
 
-CARD_SIZE = WIDTH_OBJECTS//11
-DRAFT_CARD_SIZE = WIDTH_OBJECTS//8
-SIDEBAR_WIDTH = WIDTH_OBJECTS//6
-SIDEBAR_HEIGHT = WIDTH_OBJECTS//3
+CARD_SIZE = WIDTH_OBJECTS // 11
+DRAFT_CARD_SIZE = WIDTH_OBJECTS // 8
+SIDEBAR_WIDTH = WIDTH_OBJECTS // 6
+SIDEBAR_HEIGHT = WIDTH_OBJECTS // 3
+BTN_WIDTH = WIDTH_OBJECTS // 8
+BTN_HEIGHT = int(BTN_WIDTH // 3.5)
 PADDING = 25
 MARGINS = 40
 BOARD_MARGIN = DRAFT_CARD_SIZE + PADDING + MARGINS
@@ -27,7 +29,7 @@ LIGHT_GREY = (245, 245, 245)
 DARK_GREY = (210, 210, 210)
 BLACK = (0, 0, 0)
 
-window = pygame.display.set_mode((WIDTH, HEIGHT),pygame.RESIZABLE)
+window = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
 pygame.display.set_caption("Totem")
 font = pygame.freetype.SysFont('Arial', 20)
 
@@ -129,12 +131,16 @@ class SelectBoard:
                 board.hovered = pos
 
     def end_of_turn_btn(self, board, mx, my):
-        btn = pygame.draw.rect(window, BLACK, (WIDTH - SIDEBAR_WIDTH - MARGINS, (ROWS - 1) * (CARD_SIZE + PADDING) + BOARD_MARGIN, SIDEBAR_WIDTH, 60))
+        btn = pygame.draw.rect(window, BLACK, (
+            WIDTH - SIDEBAR_WIDTH - MARGINS, (ROWS - 1) * (CARD_SIZE + PADDING) + BOARD_MARGIN, BTN_WIDTH,
+            BTN_HEIGHT))
         if btn.collidepoint(mx, my) and board.selected_draft is not None and board.selected_board is not None:
             board.end_turn_pressed = True
 
     def view_board_btn(self, board, mx, my):
-        btn = pygame.draw.rect(window, BLACK, (WIDTH - SIDEBAR_WIDTH - MARGINS, (ROWS - 1) * (CARD_SIZE + PADDING) + BOARD_MARGIN + 70, SIDEBAR_WIDTH, 60))
+        btn = pygame.draw.rect(window, BLACK, (WIDTH - SIDEBAR_WIDTH - MARGINS,
+                                               BOARD_MARGIN + (ROWS * CARD_SIZE) + ((ROWS - 1) * PADDING) - BTN_HEIGHT,
+                                               BTN_WIDTH, BTN_HEIGHT))
         if btn.collidepoint(mx, my):
             if board.viewed_board == board.player:
                 board.viewed_board = board.opponent
@@ -221,7 +227,8 @@ class ViewBoard:
             col, row = self.hovered
             row = 3 - row
             if row <= (len(eval(f"state.p{self.viewed_board}.totems[col]")) - 1):
-                image = get_image(str(eval(f"state.p{self.viewed_board}.totems[col][row]")), SIDEBAR_WIDTH, SIDEBAR_WIDTH)
+                image = get_image(str(eval(f"state.p{self.viewed_board}.totems[col][row]")), SIDEBAR_WIDTH,
+                                  SIDEBAR_WIDTH)
                 text = get_text(str(eval(f"state.p{self.viewed_board}.totems[col][row]")))
                 word_wrap(sidebar, text, font, BLACK)
                 window.blit(sidebar, (WIDTH - SIDEBAR_WIDTH - PADDING, BOARD_MARGIN + PADDING + SIDEBAR_WIDTH))
@@ -229,19 +236,21 @@ class ViewBoard:
 
     def buttons(self):
         """draws buttons"""
+
         if self.your_turn:
-            image = pygame.image.load('assets/move.png')
+            image = get_image('move', BTN_WIDTH, BTN_HEIGHT)
         else:
-            image = pygame.image.load('assets/cantMove.png')
+            image = get_image('cantMove', BTN_WIDTH, BTN_HEIGHT)
         window.blit(image, (WIDTH - SIDEBAR_WIDTH - PADDING, (ROWS - 1) * (CARD_SIZE + PADDING) + BOARD_MARGIN))
 
         if self.viewed_board == self.player:
-            image = pygame.image.load('assets/opponent_board.png')
+            image = get_image('opponent_board', BTN_WIDTH, BTN_HEIGHT)
 
         else:
 
             image = pygame.image.load('assets/your_board.png')
-        window.blit(image, (WIDTH - SIDEBAR_WIDTH - PADDING, (ROWS - 1) * (CARD_SIZE + PADDING) + BOARD_MARGIN + 70))
+        window.blit(image, (WIDTH - SIDEBAR_WIDTH - PADDING,
+                            BOARD_MARGIN + (ROWS * CARD_SIZE) + ((ROWS - 1) * PADDING) - BTN_HEIGHT))
 
     def get_valid_placements(self, state):
         """find valid coordinates for placing"""
@@ -274,7 +283,6 @@ def main():
     opponent = get_opponent(player)
     select = SelectBoard()
     board = ViewBoard(player, opponent)
-
 
     while run:
         clock.tick(60)
