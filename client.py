@@ -129,12 +129,12 @@ class SelectBoard:
                 board.hovered = pos
 
     def end_of_turn_btn(self, board, mx, my):
-        btn = pygame.draw.rect(window, BLACK, (WIDTH - SIDEBAR_WIDTH - MARGINS, 780, SIDEBAR_WIDTH, 60))
+        btn = pygame.draw.rect(window, BLACK, (WIDTH - SIDEBAR_WIDTH - MARGINS, (ROWS - 1) * (CARD_SIZE + PADDING) + BOARD_MARGIN, SIDEBAR_WIDTH, 60))
         if btn.collidepoint(mx, my) and board.selected_draft is not None and board.selected_board is not None:
             board.end_turn_pressed = True
 
     def view_board_btn(self, board, mx, my):
-        btn = pygame.draw.rect(window, BLACK, (WIDTH - SIDEBAR_WIDTH - MARGINS, 860, SIDEBAR_WIDTH, 60))
+        btn = pygame.draw.rect(window, BLACK, (WIDTH - SIDEBAR_WIDTH - MARGINS, (ROWS - 1) * (CARD_SIZE + PADDING) + BOARD_MARGIN + 70, SIDEBAR_WIDTH, 60))
         if btn.collidepoint(mx, my):
             if board.viewed_board == board.player:
                 board.viewed_board = board.opponent
@@ -233,7 +233,7 @@ class ViewBoard:
             image = pygame.image.load('assets/move.png')
         else:
             image = pygame.image.load('assets/cantMove.png')
-        window.blit(image, (WIDTH - SIDEBAR_WIDTH - PADDING, 780))
+        window.blit(image, (WIDTH - SIDEBAR_WIDTH - PADDING, (ROWS - 1) * (CARD_SIZE + PADDING) + BOARD_MARGIN))
 
         if self.viewed_board == self.player:
             image = pygame.image.load('assets/opponent_board.png')
@@ -241,7 +241,7 @@ class ViewBoard:
         else:
 
             image = pygame.image.load('assets/your_board.png')
-        window.blit(image, (WIDTH - SIDEBAR_WIDTH - PADDING, 860))
+        window.blit(image, (WIDTH - SIDEBAR_WIDTH - PADDING, (ROWS - 1) * (CARD_SIZE + PADDING) + BOARD_MARGIN + 70))
 
     def get_valid_placements(self, state):
         """find valid coordinates for placing"""
