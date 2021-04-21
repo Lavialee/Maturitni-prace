@@ -35,7 +35,10 @@ class Game:
         self.evaluate_move(player, sel, x, y)
         if sel < 5:
             self.p[int(player)].totems[x].append(self.draft.pop(sel))
-            self.draft.append(self.deck.pop(0))
+            if self.deck:
+                self.draft.append(self.deck.pop(0))
+            else:
+                pass
         else:
             self.p[int(player)].totems[x].append(self.deck.pop())
 
@@ -97,8 +100,8 @@ class Game:
 
     def winner(self):
         if self.p1.points > self.p2.points:
-            print("Player 1 wins!")
+            return 1
         elif self.p2.points > self.p1.points:
-            print("Player 2 wins!")
+            return 2
         else:
-            print("Remíza")
+            return "Tie"

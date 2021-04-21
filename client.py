@@ -301,7 +301,12 @@ def main():
             board.selected_draft = None
 
         if game_is_end(state):
-            print("GAME ENDED")
+            if type(state.winner()) == str:
+                print("It's a tie!")
+            if player == state.winner():
+                print('You Won!')
+            elif player != state.winner():
+                print('You Lost...')
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
